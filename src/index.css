@@ -1,3 +1,9 @@
+:root {
+  --primary: white;
+  --secondary: black;
+  --highlight: blue;
+}
+
 body {
   margin: 0;
   padding: 0;
