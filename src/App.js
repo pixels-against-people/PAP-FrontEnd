@@ -1,16 +1,21 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
-import React from 'react';
+import React , { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import Home from './home'
 import './App.css';
 
-function App() {
-  return (
-    <Switch>
-      <Route exact path="/" Componenet={Home} />
-    </Switch>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Home />
+        <Switch>
+          <Route exact path="/" component={Home} />
+        </Switch>
+      </div>
+    );
+  }
 }
 
 export default App;
