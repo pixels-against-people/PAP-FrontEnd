@@ -41,14 +41,20 @@
   background: var(--primary);
   padding-left: 5px;
   padding-right: 5px;
-  transition: background .3s;
-  -webkit-transition: background .15s;
+  transition: background .3s, box-shadow .3s, transform .3s;
+  -webkit-transition: background .3s, box-shadow .3s, transform .3s;
+  /* border: 1px black solid; */
 
 }
+.game-screen .white-cards .white-card:hover {
+  box-shadow: 15px 15px 5px;
+  transform: translateX(-15px) translateY(-15px);
+}
+
 
 .white-card p {
   width: 100%;
-  word-wrap: break-word;
+  /* word-wrap: break-word; */
 }
 
 

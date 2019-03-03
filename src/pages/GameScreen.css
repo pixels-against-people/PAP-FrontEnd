@@ -12,23 +12,25 @@
 
 .game-screen .players {
   grid-area: p;
-  background: blue;
+  /* background: blue; */
+  border-right: black solid 1px;
 }
 
 .game-screen .play-area {
   grid-area: a;
-  background: green;
+  /* background: green; */
 }
 
 .game-screen .chat {
   grid-area: c;
-  background: red;
+  border-left: 1px black solid;
+  /* background: red; */
 }
 
 .game-screen .white-cards {
+  border-top: black 1px solid;
   grid-area: w;
-  background: yellow;
-  
+  background: #BBBBBB;  
 }
 
 

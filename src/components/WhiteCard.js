@@ -5,13 +5,13 @@ class WhiteCard extends Component {
 
 
   render(){
-    const { text, selected, onclick } = this.props
+    const { text, selected, onclick, submit } = this.props
     
     return(
       <div onClick={onclick} className={"white-card " + (selected? 'selected' : '')}>
           <p>{text}</p>
           {selected && 
-          <div className="overlay"> <p>Confirm?</p> </div>
+          <div className="overlay" onClick={submit}> <p>Confirm?</p> </div>
           }
       </div>
     )
