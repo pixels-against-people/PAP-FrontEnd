@@ -8,8 +8,8 @@ function Navbar(){
       <ul>
         <li>
         <Link to="/"><p>Logo</p></Link>
-        <Link to="/"><p>Home</p></Link>
-        <Link to="/"><p>New Game</p></Link>
+        <Link to="/home"><p>Home</p></Link>
+        <Link to="/new-game"><p>New Game</p></Link>
         </li>
         <li>
         <Link to="/"><p>Sign Up</p></Link>

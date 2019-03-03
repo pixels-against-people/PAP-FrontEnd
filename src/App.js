@@ -2,7 +2,9 @@
 /* eslint-disable semi */
 import React , { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
-import Home from './pages/home'
+import Home from './pages/Home'
+import NewGame from './pages/NewGame'
+import GameScreen from './pages/GameScreen'
 import Navbar from './components/Navbar'
 
 class App extends Component {
@@ -12,6 +14,9 @@ class App extends Component {
         <Navbar />
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/new-game" component={NewGame} />
+          <Route exact path="/play-game" component={GameScreen} />
         </Switch>
       </div>
     );

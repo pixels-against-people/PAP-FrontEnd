@@ -1,0 +1,33 @@
+.game-screen {
+  height: calc(100vh - 75px);
+  width: 100vw;
+  display: grid;
+  grid-template-columns: repeat(5 1fr);
+  grid-template-areas: "p a a a c"
+                       "p a a a c"
+                       "p a a a c"
+                       "p a a a c"
+                       "w w w w w"
+
+}
+
+.game-screen .players {
+  grid-area: p;
+  background: blue;
+}
+
+.game-screen .play-area {
+  grid-area: a;
+  background: green;
+}
+
+.game-screen .chat {
+  grid-area: c;
+  background: red;
+}
+
+.game-screen .white-cards {
+  grid-area: w;
+  background: yellow;
+}
+
