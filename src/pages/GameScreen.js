@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './GameScreen.css'
+import WhiteCard from '../components/WhiteCard'
 class GameScreen extends Component {
 
   constructor(props) {
@@ -7,9 +8,14 @@ class GameScreen extends Component {
 
     this.state = {
       blackCard: {text: 'Why can\'t I sleep at night' , pick: 1},
-      whiteCards: ['Coat hanger abortions.', 'Man meat.', 'Autocannibalism.'],
-      players: ['papas home', 'urmom', 'WOAH.css']
+      whiteCards: ['Coat hanger abortions.', 'Man meat.', 'Autocannibalism.', 'Praying the gay away.', 'Same-sex ice dancing.', 'Ethnic cleansing.', 'Cheating in the Special Olympics.'],
+      players: ['papas home', 'urmom', 'WOAH.css'],
+      selectedWhite: null
     }
+  }
+
+  selectCard(card) {
+    this.setState({selectedWhite:card})
   }
 
   render() {
@@ -33,7 +39,7 @@ class GameScreen extends Component {
         <ul>
           {this.state.whiteCards.map(card => {
             return(
-              <li className='card' key={card}>{card}</li>
+              <li key={card}><WhiteCard text={card} selected={card === this.state.selectedWhite} onclick={e => this.selectCard(card)}  /></li>
             )
           })}
         </ul>
@@ -42,5 +48,6 @@ class GameScreen extends Component {
     )
   }
 }
+
 
 export default GameScreen

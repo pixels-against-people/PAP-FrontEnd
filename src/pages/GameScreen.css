@@ -3,7 +3,7 @@
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
-  grid-template-rows: 3fr 1fr; 
+  grid-template-rows: 2fr 1fr; 
   grid-template-areas: "p a c"
                        "w w w"
 
@@ -28,5 +28,7 @@
 .game-screen .white-cards {
   grid-area: w;
   background: yellow;
+  
 }
+
 
