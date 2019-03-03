@@ -7,14 +7,23 @@ class GameScreen extends Component {
 
     this.state = {
       blackCard: {text: 'Why can\'t I sleep at night' , pick: 1},
-      whiteCards: ['Coat hanger abortions.', 'Man meat.', 'Autocannibalism.']
+      whiteCards: ['Coat hanger abortions.', 'Man meat.', 'Autocannibalism.'],
+      players: ['papas home', 'urmom', 'WOAH.css']
     }
   }
 
   render() {
     return(
       <div className="game-screen">
-      <div className="players"></div>
+      <div className="players">
+        <ul>
+          {this.state.players.map(player => {
+            return(
+              <li className='player' key={player}>{player}</li>
+            )
+          })}
+        </ul>
+      </div>
         <div className="play-area">
           <div className="black-card">{this.state.blackCard.text}</div>
           

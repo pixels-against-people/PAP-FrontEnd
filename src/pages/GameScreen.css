@@ -2,14 +2,13 @@
   height: calc(100vh - 75px);
   width: 100vw;
   display: grid;
-  grid-template-columns: repeat(5 1fr);
-  grid-template-areas: "p a a a c"
-                       "p a a a c"
-                       "p a a a c"
-                       "p a a a c"
-                       "w w w w w"
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-rows: 3fr 1fr; 
+  grid-template-areas: "p a c"
+                       "w w w"
 
 }
+
 
 .game-screen .players {
   grid-area: p;
