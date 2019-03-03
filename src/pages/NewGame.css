@@ -1,29 +1,33 @@
+/* grid container for newgame component */
 .newGameContainer {
   height: calc(100vh - 75px);
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 80px 1fr 80px;
-  grid-template-areas: '. n .'
-                       'p s s'
+  grid-template-rows: 1fr 80px;
+  grid-template-areas: 'p s s'
                        '. b .';
 }
 
 /* cardset select styling */
 .highlighted {
-  background-color: rgba(0, 0, 0, 0.897);
+  background-color: var(--highlight);
   color: white;
   font-size: 36px;
   border-radius: 5px;
-  padding: 5px;
+  padding: 8px;
   margin: 15px;
   height: 45px;
 }
 
 .unhighlighted {
+  background-color: var(--secondary);
+  color: white;
+  font-size: 36px;
   border-radius: 5px;
-  padding: 6px;
-  margin: 5px;
+  padding: 8px;
+  margin: 15px;
+  height: 45px;
 }
 
 .setContainer {
@@ -36,12 +40,40 @@
 .setContainer > h1 {
   font-size: 48px;
   width: 100%;
-  padding: 15px;
+  padding: 0 15px 0 15px;
 }
 
-
+/* current players styling */
 .playersContainer {
+  text-align: center;
   grid-area: p;
+  border: .5px solid black;
+  margin: 25px 25px 0 25px;
+}
+
+.playersContainer > h1 {
+  border-bottom: .5px solid black;
+  padding: 5px;
+  font-size: 40px;
+}
+
+.player {
+  display: flex;
+  align-items: center;
+}
+
+.player > span {
+  font-size: 40px;
+  width: 100%;
+  height: 15%;
+}
+
+.player > img {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  align-self: flex-start;
+  margin: 0 0 0 15px;
 }
 
 .gameName {
@@ -50,4 +82,21 @@
 
 .startButton {
   grid-area: b;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.startButton > .Link {
+  text-align: center;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 24px;
+  color: var(--primary);
+  background-color: var(--secondary);
+  width: 60%;
+  height: 40%;
+  border: .5px solid var(--secondary);
 }
