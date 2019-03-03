@@ -9,7 +9,7 @@ class NewGame extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedSets: []
+      selectedSets: [],
     }
   }
 
@@ -21,7 +21,7 @@ class NewGame extends Component {
             // eslint-disable-next-line react/jsx-boolean-value
             return <SetSelect setName={setName} highlight="highlighted" />
           }
-          return <SetSelect setName={setName} highlight="" />
+          return <SetSelect setName={setName} highlight="unhighlighted" />
         })
       })
   }
@@ -30,20 +30,38 @@ class NewGame extends Component {
     const selected = this.state.selectedSets
     if (selected.includes(setName)) {
       selected.pop(selected.indexOf(setName))
+      this.setState({ selectedSets: selected })
     } else {
-      selected.append(setName)
+      selected.push(setName)
+      this.setState({ selectedSets: selected })
     }
   }
 
   render() {
     return (
-      <div>
-        <div>
-          <SetSelect onClick={this.highlightSet('pack1')} setName="pack1" highlighted={true}/>
-          <SetSelect onClick={this.highlightSet('pack2')} setName="pack2" />
-          <SetSelect onClick={this.highlightSet('pack3')} setName="pack3" />
-          <SetSelect onClick={this.highlightSet('pack4')} setName="pack4" />
-          <p>is work?</p>
+      <div className="newGameContainer">
+        <div className="setContainer">
+          <h1>Select The Decks You'd Like to Use</h1>
+          <SetSelect onClick={() => this.highlightSet('pack1')} setName="pack1" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack2')} setName="pack2" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack3')} setName="pack3" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack4')} setName="pack4" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack1')} setName="pack1" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack2')} setName="pack2" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack3')} setName="pack3" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack4')} setName="pack4" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack1')} setName="pack1" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack2')} setName="pack2" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack3')} setName="pack3" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack4')} setName="pack4" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack1')} setName="pack1" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack2')} setName="pack2" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack3')} setName="pack3" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack4')} setName="pack4" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack1')} setName="pack1" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack2')} setName="pack2" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack3')} setName="pack3" highlight="highlighted" />
+          <SetSelect onClick={() => this.highlightSet('pack4')} setName="pack4" highlight="highlighted" />
         </div>
         <Link to="play-game">Start!</Link>
       </div>

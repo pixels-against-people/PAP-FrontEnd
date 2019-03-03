@@ -1,0 +1,53 @@
+.newGameContainer {
+  height: calc(100vh - 75px);
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 80px 1fr 80px;
+  grid-template-areas: '. n .'
+                       'p s s'
+                       '. b .';
+}
+
+/* cardset select styling */
+.highlighted {
+  background-color: rgba(0, 0, 0, 0.897);
+  color: white;
+  font-size: 36px;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 15px;
+  height: 45px;
+}
+
+.unhighlighted {
+  border-radius: 5px;
+  padding: 6px;
+  margin: 5px;
+}
+
+.setContainer {
+  grid-area: s;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 15px;
+}
+
+.setContainer > h1 {
+  font-size: 48px;
+  width: 100%;
+  padding: 15px;
+}
+
+
+.playersContainer {
+  grid-area: p;
+}
+
+.gameName {
+  grid-area: n;
+}
+
+.startButton {
+  grid-area: b;
+}

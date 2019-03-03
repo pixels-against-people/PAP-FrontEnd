@@ -44,7 +44,7 @@ class GameScreen extends Component {
         <div className="players">
           <h1>Players</h1>
           <ul>
-            // eslint-disable-next-line react/destructuring-assignment
+            {/* eslint-disable-next-line react/destructuring-assignment */}
             {players.map((player) => {
               return (
 
