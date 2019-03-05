@@ -4,6 +4,7 @@
   width: calc(25% - 20px);
   height: 75%;
   margin: 20px;
+  min-width: 25%;
   font-size: 2em;
   font-weight: bold;
   padding: 10px;
@@ -11,6 +12,12 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: sticky;
+  left: 0px;
+}
+
+.black-card p {
+  margin: 5px 0px;
 }
 
 .black-card div:last-child {

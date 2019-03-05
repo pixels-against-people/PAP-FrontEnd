@@ -17,14 +17,22 @@
 }
 
 .game-screen .play-area {
+  width: 5fr;
   grid-area: a;
   display: flex;
-  justify-content: space-around;
+  /* justify-content: space-around; */
   align-items: center;  
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
   /* background: green; */
 }
 
-.game-screen .chat {
+.game-screen .play-area > * {
+  white-space: pre-wrap;
+}
+
+.game-screen .chat-area {
   grid-area: c;
   border-left: 1px black solid;
   /* background: red; */

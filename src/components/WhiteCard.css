@@ -33,6 +33,8 @@
   z-index: 1;
   position: relative;
   display: flex;
+  cursor: pointer;
+  border: 1px black solid;
   height: 80%;
   width: 100%;
   border-radius: 10px;
@@ -49,8 +51,9 @@
 
 }
 .game-screen .white-cards .white-card:hover {
-  box-shadow: 10px 10px 5px var(--card-shadow);
-  transform: translateX(-5px) translateY(-15px) scale(1.2);
+  /* box-shadow: 10px 10px 5px var(--card-shadow); */
+  /* transform: translateX(-5px) translateY(-15px) scale(1.2); */
+  transform: rotate(8deg) scale(1.1);
   z-index: 0;
 }
 
@@ -63,7 +66,13 @@
 
 
 .game-screen .white-cards .white-card[class$="selected"] {
-  background: var(--text-highlight)
+  /* background: var(--text-highlight) */
+  transform: translateY(-20px);
+}
+
+.game-screen .white-cards .white-card[class$="selected"]:hover {
+  transform: translateY(-20px) rotate(8deg) scale(1.1) ; 
+
 }
 
 .game-screen .white-cards .white-card .overlay {

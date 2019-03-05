@@ -4,7 +4,9 @@
 import React, { Component } from 'react'
 import './GameScreen.css'
 import WhiteCard from '../components/WhiteCard'
+import LargeWhiteCard from '../components/LargeWhiteCard'
 import BlackCard from '../components/BlackCard'
+import Chat from '../components/Chat'
 
 
 class GameScreen extends Component {
@@ -14,7 +16,7 @@ class GameScreen extends Component {
     this.state = {
       blackCard: { text: 'Why can\'t I sleep at night?', pick: 1 },
       whiteCards: ['Why can\'t I sleep at night?', 'Man meat.', 'Autocannibalism.', 'Praying the gay away.', 'Same-sex ice dancing.', 'Ethnic cleansing.', 'Battlefield amputations.', 'An uppercut.', 'Shiny objects.'],
-      players: ['papas home', 'urmom', 'WOAH.css'],
+      players: ['This Website', 'is not currently', 'hooked up to', 'the back end', 'so players ', 'dont exist yet'],
       selectedWhite: null,
       playedCards: [],
     }
@@ -57,9 +59,14 @@ class GameScreen extends Component {
         </div>
         <div className="play-area">
           <BlackCard card={blackCard} />
-          {playedCards.map(card => <p key={card}>{card}</p>)}
+          {playedCards.map((card) => {
+            return (
+              <LargeWhiteCard key={card} text={card} />
+            )
+          })}
         </div>
-        <div className="chat"><h1>Chat</h1></div>
+
+        <div className="chat-area"><Chat /></div>
         <div className="white-cards">
           <ul>
             {whiteCards.map((card) => {
