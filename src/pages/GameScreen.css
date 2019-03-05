@@ -33,7 +33,7 @@
 .game-screen .white-cards {
   border-top: black 1px solid;
   grid-area: w;
-  background: #BBBBBB;  
+  background: var(--secondary);
 }
 
 

@@ -12,7 +12,7 @@ function BlackCard(props) {
     <div className="black-card">
       <p>{text}</p>
       <div>
-        <p>pick: </p>
+        <p>Pick: </p>
         <div>{pick}</div>
       </div>
     </div>

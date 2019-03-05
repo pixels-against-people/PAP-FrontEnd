@@ -10,30 +10,31 @@
 
 .game-screen .white-cards li {
   display: flex;
-  width: 7%;
-  height: 60%;
-  font-size: .70em;
+  width: 9.5%;
+  height: 80%;
+  font-size: 1em;
   align-items: center;
   justify-content: center;
-  transition: width .3s, height .3s, font-size .3s, font-weight .3s;
-  -webkit-transition: width .3s, height .3s, font-size .3s, font-weight .3s;
+  /* transition: width .3s, height .3s, font-size .3s, font-weight .3s;
+  -webkit-transition: width .3s, height .3s, font-size .3s, font-weight .3s; */
+  transition: transform .3s;
 
 
 }
 
 .game-screen .white-cards li:hover {
-  width: 12%;
+  /* width: 12%;
   height: 100%;
-  font-size: 1.15em;
-  font-weight: bold;
-
+  font-size: 1.12em;
+  font-weight: bold; */
 }
 
 .game-screen .white-cards .white-card {
+  z-index: 1;
   position: relative;
   display: flex;
   height: 80%;
-  width: calc(85%);
+  width: 100%;
   border-radius: 10px;
   text-align: left;
   justify-content: flex-start;
@@ -41,14 +42,16 @@
   background: var(--primary);
   padding-left: 5px;
   padding-right: 5px;
+  /* border-left: solid black 1px; */
   transition: background .3s, box-shadow .3s, transform .3s;
   -webkit-transition: background .3s, box-shadow .3s, transform .3s;
   /* border: 1px black solid; */
 
 }
 .game-screen .white-cards .white-card:hover {
-  box-shadow: 15px 15px 5px;
-  transform: translateX(-15px) translateY(-15px);
+  box-shadow: 10px 10px 5px var(--card-shadow);
+  transform: translateX(-5px) translateY(-15px) scale(1.2);
+  z-index: 0;
 }
 
 
@@ -60,7 +63,7 @@
 
 
 .game-screen .white-cards .white-card[class$="selected"] {
-  background: var(--highlight)
+  background: var(--text-highlight)
 }
 
 .game-screen .white-cards .white-card .overlay {

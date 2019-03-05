@@ -1,8 +1,9 @@
 :root {
   --primary: white;
   --secondary: black;
-  --highlight: blue;
+  --highlight: #0000FF;
   --text-highlight: yellow;
+  --card-shadow: #0000FF44;
 }
 
 body {
