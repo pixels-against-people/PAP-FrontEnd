@@ -10,14 +10,24 @@ class NewGame extends Component {
     super(props)
     this.state = {
       selectedSets: [],
+      cardSets: []
     }
+  }
+
+  componentDidMount() {
+    // generates setlist from the CAH-API
+    fetch('https://cards-against-humanity-api.herokuapp.com/sets')
+      .then(response => response.json())
+      .then((sets) => {
+        this.setState({ cardSets: sets })
+      }).catch(err => console.log(err.message))
   }
 
   highlightSet(setName) {
     // adds selected set to state if not already included, removes if it is
     const selected = this.state.selectedSets
     if (selected.includes(setName)) {
-      selected.pop(selected.indexOf(setName))
+      selected.splice(selected.indexOf(setName), 1)
       this.setState({ selectedSets: selected })
     } else {
       selected.push(setName)
@@ -25,18 +35,13 @@ class NewGame extends Component {
     }
   }
 
-  generateSets() {
-    // generates setlist from the CAH-API
-    fetch('https://cards-against-humanity-api.herokuapp.com/sets')
-      .then(response => response.json())
-      .then((sets) => {
-        return sets.map((set) => {
-          console.log(set)
-          return (this.state.selectedSets.includes(set.setName)
-            ? <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="highlighted" />
-            : <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="unhighlighted" />)
-        })
-      })
+  renderSets(sets) {
+    return sets.map((set) => {
+      const bleh = (this.state.selectedSets.includes(set.setName)
+        ? <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="highlighted" />
+        : <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="unhighlighted" />)
+      return bleh
+    })
   }
 
   render() {
@@ -51,7 +56,7 @@ class NewGame extends Component {
         </div>
         <div className="setContainer">
           <h1>Select The Decks You'd Like to Use</h1>
-          {this.generateSets()}
+          {this.renderSets(this.state.cardSets)}
         </div>
         <div className="startButton">
           <Link className="Link" to="play-game">Start!</Link>

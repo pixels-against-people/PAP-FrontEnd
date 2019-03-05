@@ -20,7 +20,6 @@ class Register extends Component {
     // checking login credentials
     const { email, password, passwordConf } = this.state
     const body = { email, password, passwordConf }
-    console.log(JSON.stringify(body))
 
     fetch('https://cards-against-humanity-api.herokuapp.com/register', {
       method: 'POST',
@@ -34,7 +33,7 @@ class Register extends Component {
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err.message)
       })
   }
 
