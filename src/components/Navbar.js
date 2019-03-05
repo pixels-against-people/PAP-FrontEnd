@@ -12,8 +12,8 @@ function Navbar(){
         <Link to="/new-game"><p>New Game</p></Link>
         </li>
         <li>
-        <Link to="/"><p>Sign Up</p></Link>
-        <Link to="/"><p>Log in</p></Link>
+        <Link to="/register"><p>Sign Up</p></Link>
+        <Link to="/login"><p>Log in</p></Link>
         </li>
       </ul>
     </nav>
