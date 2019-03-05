@@ -4,14 +4,16 @@
 import React, { Component } from 'react'
 import './GameScreen.css'
 import WhiteCard from '../components/WhiteCard'
+import BlackCard from '../components/BlackCard'
+
 
 class GameScreen extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      blackCard: { text: 'Why can\'t I sleep at night', pick: 1 },
-      whiteCards: ['Coat hanger abortions.', 'Man meat.', 'Autocannibalism.', 'Praying the gay away.', 'Same-sex ice dancing.', 'Ethnic cleansing.', 'Battlefield amputations.', 'An uppercut.', 'Shiny objects.'],
+      blackCard: { text: 'Why can\'t I sleep at night?', pick: 1 },
+      whiteCards: ['Why can\'t I sleep at night?', 'Man meat.', 'Autocannibalism.', 'Praying the gay away.', 'Same-sex ice dancing.', 'Ethnic cleansing.', 'Battlefield amputations.', 'An uppercut.', 'Shiny objects.'],
       players: ['papas home', 'urmom', 'WOAH.css'],
       selectedWhite: null,
       playedCards: [],
@@ -54,7 +56,7 @@ class GameScreen extends Component {
           </ul>
         </div>
         <div className="play-area">
-          <div className="black-card">{blackCard.text}</div>
+          <BlackCard card={blackCard} />
           {playedCards.map(card => <p key={card}>{card}</p>)}
         </div>
         <div className="chat"><h1>Chat</h1></div>
