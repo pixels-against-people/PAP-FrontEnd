@@ -28,9 +28,10 @@ class NewGame extends Component {
   generateSets() {
     // generates setlist from the CAH-API
     fetch('https://cards-against-humanity-api.herokuapp.com/sets')
-      .then(response => response.json().then(data => data))
+      .then(response => response.json())
       .then((sets) => {
         return sets.map((set) => {
+          console.log(set)
           return (this.state.selectedSets.includes(set.setName)
             ? <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="highlighted" />
             : <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="unhighlighted" />)
@@ -39,7 +40,6 @@ class NewGame extends Component {
   }
 
   render() {
-
     return (
       <div className="newGameContainer">
         <div className="playersContainer">
