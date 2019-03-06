@@ -1,0 +1,30 @@
+.homeContainer {
+  height: 100vh;
+  width: 100vw;
+}
+
+.homeContainer > .buttonContainer {
+  position: absolute;
+  top: 70%;
+  left: 37%;
+  width: 25vw;
+  height: 5vh;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+.homeContainer .Link {
+  text-align: center;
+  text-decoration: none;
+  min-height: 30px;
+  min-width: 60px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 24px;
+  color: var(--primary);
+  background-color: var(--secondary);
+  width: 40%;
+  height: 40%;
+  border: .5px solid var(--secondary);
+}

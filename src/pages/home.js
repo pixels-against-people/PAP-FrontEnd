@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import './Home.css'
 
 class Home extends Component {
   constructor(props) {
@@ -22,7 +24,10 @@ class Home extends Component {
   render() {
     return (
       <div className="homeContainer">
-
+        <div className="buttonContainer">
+          <Link className="Link" to="/game">Play Game</Link>
+          <Link className="Link" to="/">Join Game</Link>
+        </div>
       </div>
     )
   }
