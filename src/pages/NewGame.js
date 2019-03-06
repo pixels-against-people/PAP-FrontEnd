@@ -4,6 +4,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './NewGame.css'
 import SetSelect from '../components/SetSelect'
+// import GameScreen from './GameScreen'
 
 class NewGame extends Component {
   constructor(props) {
@@ -59,8 +60,10 @@ class NewGame extends Component {
           {this.renderSets(this.state.cardSets)}
         </div>
         <div className="startButton">
-          <Link className="Link" to="play-game">Start!</Link>
+          {/* <Link className="Link" to={`${this.props.match.path}/lobby`}>Start!</Link> */}
+          <Link className="Link" to="/play-game">Start</Link>
         </div>
+        {/* <Route path={`${this.props.match.path}/:lobbyId`} component={() => <GameScreen decks={this.state.selectedSets} />} /> */}
       </div>
     )
   }
