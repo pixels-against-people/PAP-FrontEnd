@@ -3,9 +3,10 @@
   width: 100vw;
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
-  grid-template-rows: 2fr 1fr; 
+  grid-template-rows: 4fr 1fr;
   grid-template-areas: "p a c"
-                       "w w w"
+    "w w w";
+  overflow: hidden;
 
 }
 
@@ -21,14 +22,14 @@
   grid-area: a;
   display: flex;
   /* justify-content: space-around; */
-  align-items: center;  
+  align-items: center;
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
   /* background: green; */
 }
 
-.game-screen .play-area > * {
+.game-screen .play-area>* {
   white-space: pre-wrap;
 }
 
@@ -41,7 +42,13 @@
 .game-screen .white-cards {
   border-top: black 1px solid;
   grid-area: w;
-  background: var(--secondary);
+  background: var(--card-shadow);
+  /* transform: translateY(50%); */
+  transition: transform .3s;
+  height: 185%;
 }
 
+.game-screen .white-cards:hover {
+  transform: translateY(-46%);
 
+}
