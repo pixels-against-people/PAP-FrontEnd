@@ -13,7 +13,7 @@
   flex-direction: column;
   justify-content: space-between;
   position: sticky;
-  left: 0px;
+  left: 20px;
 }
 
 .black-card p {

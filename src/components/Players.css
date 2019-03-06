@@ -1,0 +1,15 @@
+.player {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.player > p {
+  color: var(--light-text);
+  margin-top: 0px;
+}
+
+.player > h3 {
+  margin-bottom: 0px;
+}

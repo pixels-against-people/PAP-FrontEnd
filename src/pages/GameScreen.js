@@ -7,6 +7,7 @@ import WhiteCard from '../components/WhiteCard'
 import LargeWhiteCard from '../components/LargeWhiteCard'
 import BlackCard from '../components/BlackCard'
 import Chat from '../components/Chat'
+import Players from '../components/Players'
 
 
 class GameScreen extends Component {
@@ -14,9 +15,9 @@ class GameScreen extends Component {
     super(props)
 
     this.state = {
-      blackCard: { text: 'Why can\'t I sleep at night?', pick: 1 },
+      blackCard: { text: 'Why can\'t I sleep at night?', pick: 2 },
       whiteCards: ['Why can\'t I sleep at night?', 'Man meat.', 'Autocannibalism.', 'Praying the gay away.', 'Same-sex ice dancing.', 'Ethnic cleansing.', 'Battlefield amputations.', 'An uppercut.', 'Shiny objects.'],
-      players: ['This Website', 'is not currently', 'hooked up to', 'the back end', 'so players ', 'dont exist yet'],
+      players: [{ name: 'This Website', points: 1 }, { name: 'is not currently', points: 2 }, { name: 'hooked up to', points: 3 }, { name: 'the back end', points: 4 }, { name: 'so players ', points: 5 }, { name: 'dont exist yet', points: 6 }],
       selectedWhite: null,
       playedCards: [],
     }
@@ -49,12 +50,7 @@ class GameScreen extends Component {
           <h1>Players</h1>
           <ul>
             {/* eslint-disable-next-line react/destructuring-assignment */}
-            {players.map((player) => {
-              return (
-
-                <li className="player" key={player}>{player}</li>
-              )
-            })}
+            <Players players={players} />
           </ul>
         </div>
         <div className="play-area">

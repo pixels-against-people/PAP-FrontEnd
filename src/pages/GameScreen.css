@@ -12,9 +12,15 @@
 
 
 .game-screen .players {
+  text-align: center;
   grid-area: p;
   /* background: blue; */
   border-right: black solid 1px;
+  overflow: auto;
+}
+
+.game-screen .players ul {
+  padding: 0px;
 }
 
 .game-screen .play-area {
