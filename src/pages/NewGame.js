@@ -16,7 +16,7 @@ class NewGame extends Component {
   }
 
   componentDidMount() {
-    // generates setlist from the CAH-API
+    // generates setlist from the CAH-API when the component is called
     fetch('https://cards-against-humanity-api.herokuapp.com/sets')
       .then(response => response.json())
       .then((sets) => {
