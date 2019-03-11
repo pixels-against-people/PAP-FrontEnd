@@ -25,7 +25,7 @@ class NewGame extends Component {
   }
 
   highlightSet(setName) {
-    // adds selected set to state if not already included, removes if it is
+    // adds selected set to state if not already included, removes if it is already included
     const selected = this.state.selectedSets
     if (selected.includes(setName)) {
       selected.splice(selected.indexOf(setName), 1)
