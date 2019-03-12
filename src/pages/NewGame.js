@@ -11,7 +11,7 @@ class NewGame extends Component {
     super(props)
     this.state = {
       selectedSets: [],
-      cardSets: []
+      cardSets: [],
     }
   }
 
