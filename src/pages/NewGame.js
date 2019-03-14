@@ -37,6 +37,7 @@ class NewGame extends Component {
   }
 
   renderSets(sets) {
+    // maps setnames to tags based on whether or not they are in the selectedsets state
     return sets.map((set) => {
       const output = (this.state.selectedSets.includes(set.setName)
         ? <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="highlighted" />
