@@ -38,10 +38,10 @@ class NewGame extends Component {
 
   renderSets(sets) {
     return sets.map((set) => {
-      const bleh = (this.state.selectedSets.includes(set.setName)
+      const output = (this.state.selectedSets.includes(set.setName)
         ? <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="highlighted" />
         : <SetSelect onClick={() => this.highlightSet(set.setName)} key={set.setName} setName={set.setName} highlight="unhighlighted" />)
-      return bleh
+      return output
     })
   }
 
