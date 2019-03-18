@@ -2,12 +2,16 @@
 /* eslint-disable semi */
 /* eslint-disable react/jsx-filename-extension */
 import React, { Component } from 'react'
+import openSocket from 'socket.io-client'
+
 import './GameScreen.css'
 import WhiteCard from '../components/WhiteCard'
 import LargeWhiteCard from '../components/LargeWhiteCard'
 import BlackCard from '../components/BlackCard'
 import Chat from '../components/Chat'
 import Players from '../components/Players'
+
+const socket = openSocket('http://localhost:4000')
 
 
 class GameScreen extends Component {
@@ -62,7 +66,7 @@ class GameScreen extends Component {
           })}
         </div>
 
-        <div className="chat-area"><Chat /></div>
+        <div className="chat-area"><Chat socket={socket} /></div>
         <div className="white-cards">
           <ul>
             {whiteCards.map((card) => {
