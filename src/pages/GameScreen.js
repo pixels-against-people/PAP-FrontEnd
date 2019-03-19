@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable arrow-body-style */
 /* eslint-disable semi */
 /* eslint-disable react/jsx-filename-extension */
@@ -21,10 +23,22 @@ class GameScreen extends Component {
     this.state = {
       blackCard: { text: 'Why can\'t I sleep at night?', pick: 2 },
       whiteCards: ['Why can\'t I sleep at night?', 'Man meat.', 'Autocannibalism.', 'Praying the gay away.', 'Same-sex ice dancing.', 'Ethnic cleansing.', 'Battlefield amputations.', 'An uppercut.', 'Shiny objects.'],
-      players: [{ name: 'This Website', points: 1 }, { name: 'is not currently', points: 2 }, { name: 'hooked up to', points: 3 }, { name: 'the back end', points: 4 }, { name: 'so players ', points: 5 }, { name: 'dont exist yet', points: 6 }],
+      players: [],
       selectedWhite: null,
       playedCards: [],
+      username: '',
+      nameInput: '',
     }
+  }
+
+  componentWillMount() {
+    this.handlePlayers()
+  }
+
+  handlePlayers() {
+    socket.on('Update Players', (players) => {
+      this.setState({ players })
+    })
   }
 
   selectCard(card) {
@@ -39,6 +53,11 @@ class GameScreen extends Component {
     this.setState({ whiteCards, playedCards })
   }
 
+  submitUsername(e, username) {
+    e.preventDefault()
+    this.setState({ nameInput: '', username })
+  }
+
   render() {
     const {
       players,
@@ -46,15 +65,24 @@ class GameScreen extends Component {
       blackCard,
       whiteCards,
       selectedWhite,
+      username,
+      nameInput,
     } = this.state
     return (
-
       <div className="game-screen">
         <div className="players">
           <h1>Players</h1>
           <ul>
             {/* eslint-disable-next-line react/destructuring-assignment */}
-            <Players players={players} />
+            {username
+              ? <Players players={players} />
+              : <div>
+                <form>
+                  <input type="text" value={nameInput} onChange={e => this.setState({ nameInput: e.target.value })} />
+                  <button type="submit" onClick={e => this.submitUsername(e, nameInput)}>Submit Name</button>
+                </form>
+              </div>
+            }
           </ul>
         </div>
         <div className="play-area">

@@ -1,9 +1,11 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import openSocket from 'socket.io-client'
+import { Redirect } from 'react-router-dom'
 import './NewGame.css'
 import SetSelect from '../components/SetSelect'
+const socket = openSocket('http://localhost:4000')
 // import GameScreen from './GameScreen'
 
 class NewGame extends Component {
@@ -12,7 +14,14 @@ class NewGame extends Component {
     this.state = {
       selectedSets: [],
       cardSets: [],
+      lobbyId: '',
     }
+  }
+
+  componentWillMount() {
+    socket.on("Lobby Created", (lobbyId) => {
+      this.setState({ lobbyId })
+    })
   }
 
   componentDidMount() {
@@ -36,6 +45,12 @@ class NewGame extends Component {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  createLobby(e) {
+    e.preventDefault()
+    socket.emit('Create Lobby')
+  }
+
   renderSets(sets) {
     // maps setnames to elements based on whether or not they are in the selectedsets states
     return sets.map((set) => {
@@ -49,6 +64,7 @@ class NewGame extends Component {
   render() {
     return (
       <div className="newGameContainer">
+        {this.state.lobbyId && <Redirect to={'/play-game/' + this.state.lobbyId} />}
         <div className="playersContainer">
           <h1>Current Players</h1>
           <div className="player">
@@ -62,7 +78,7 @@ class NewGame extends Component {
         </div>
         <div className="startButton">
           {/* <Link className="Link" to={`${this.props.match.path}/lobby`}>Start!</Link> */}
-          <Link className="Link" to="/play-game">Start</Link>
+          <button type="button" onClick={e => this.createLobby(e)}>Start</button>
         </div>
         {/* <Route path={`${this.props.match.path}/:lobbyId`} component={() => <GameScreen decks={this.state.selectedSets} />} /> */}
       </div>
