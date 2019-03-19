@@ -4,6 +4,9 @@
 import React, { Component } from 'react'
 import './login.css'
 import { Link, Redirect } from 'react-router-dom'
+import openSocket from 'socket.io-client'
+
+const socket = openSocket('http://localhost:4000')
 
 class Login extends Component {
   constructor(props) {
@@ -17,19 +20,10 @@ class Login extends Component {
     }
   }
 
-  handleClick() {
-    // checking login credentials
-    const { email, password } = this.state
-    const body = { email, password }
-    fetch('https://cards-against-humanity-api.herokuapp.com/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/JSON' },
-      body: JSON.stringify(body),
-    })
-      .then(response => response.json().then(data => data))
-      .then((res) => {
+  componentWillMount() {
+    socket.on('loginres', res => {
         if (res.result === 'Success') {
-          console.log(res)
+          localStorage.setItem('cahToken', res.token)
           // will activate the redirect component, sending user to the next page when the page renders
           this.setState({
             redirect: true,
@@ -38,10 +32,15 @@ class Login extends Component {
           // renders a box stating the username or password is incorrect
           this.setState({ loginFail: true })
         }
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    })
+  }
+    
+
+  handleClick() {
+    // checking login credentials
+    const { email, password } = this.state
+    const body = { email, password }
+    socket.emit("Login", body)
   }
 
   render() {

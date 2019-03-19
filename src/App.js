@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import './app.css'
-import Home from './pages/Home'
+import Home from './pages/home'
 import NewGame from './pages/NewGame'
 import GameScreen from './pages/GameScreen'
 import Navbar from './components/Navbar'
@@ -15,11 +15,21 @@ class App extends Component {
     super(props)
     this.state = {
       loading: true,
+      isAuthed: false,
     }
   }
 
   componentDidMount() {
-    this.setState({ loading: false })
+    if(localStorage.getItem('cahToken')) {
+      this.setState({ loading: false, isAuthed: true})
+    } else {
+      this.setState({ loading: false })
+    }
+  }
+
+  logout() {
+    localStorage.removeItem('cahToken')
+    this.setState({isAuthed: false})
   }
 
   render() {
@@ -31,7 +41,7 @@ class App extends Component {
 
     return (
       <div className="mainContainer">
-        <Navbar />
+        <Navbar isAuthed={this.state.isAuthed} logout={() => this.logout()} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/home" component={Home} />

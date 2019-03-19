@@ -23,10 +23,9 @@
   justify-content: space-around;
   align-items: center;
   height: 70%;
-  
 }
 
-.navbar a {
+.navbar a, .navbar button {
   height: 100%;
   width: 100%;
   color:  var(--primary);
