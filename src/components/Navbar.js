@@ -1,37 +1,53 @@
 /* eslint-disable semi */
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react'
-import decode from 'jwt-decode'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
 
-function Navbar(props) {
-  let cahToken = null
-  if (props.isAuthed) {
-    cahToken = decode(localStorage.getItem('cahToken'))
+class Navbar extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isAuthed: false,
+    }
   }
-  console.log(cahToken)
-  return (
-    <nav className="navbar">
-      <ul>
-        <li>
-          <Link to="/"><p>Logo</p></Link>
-          <Link to="/home"><p>Home</p></Link>
-          <Link to="/game"><p>New Game</p></Link>
-        </li>
-        {cahToken ? <li>
-          <Link to="/user/:id">Profile</Link>
-          <a onClick={props.logout()}>Logout</a>
-          </li>
-          :
+
+  componentWillMount() {
+      console.log(localStorage.getItem('cahToken'))
+      if(localStorage.getItem('cahToken')) {
+        this.setState({ isAuthed: true })
+      }
+  }
+
+  logout() {
+    localStorage.getItem('cahToken')
+    this.setState({ isAuthed: false })
+  }
+
+  render() {
+    return (
+      <nav className="navbar">
+        <ul>
           <li>
-          <Link to="/register"><p>Sign Up</p></Link>
-          <Link to="/login"><p>Log in</p></Link>
-        </li>
-        }
-      </ul>
-    </nav>
-  )
+            <Link to="/"><p>Logo</p></Link>
+            <Link to="/"><p>Home</p></Link>
+            <Link to="/game"><p>New Game</p></Link>
+          </li>
+          {this.state.isAuthed ? <li>
+            <Link to="/user/:id">Profile</Link>
+            {/* eslint-disable-next-line */}
+            <a onClick={() => this.logout()}>Logout</a>
+            </li>
+            :
+            <li>
+            <Link to="/register"><p>Sign Up</p></Link>
+            <Link to="/login"><p>Log in</p></Link>
+          </li>
+          }
+        </ul>
+      </nav>
+    )
+  }
 }
 
 export default Navbar

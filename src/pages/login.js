@@ -21,7 +21,7 @@ class Login extends Component {
   }
 
   componentWillMount() {
-    socket.on('loginres', res => {
+    socket.on('authRes', res => {
         if (res.result === 'Success') {
           localStorage.setItem('cahToken', res.token)
           // will activate the redirect component, sending user to the next page when the page renders

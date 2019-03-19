@@ -22,8 +22,7 @@ class Register extends Component {
   }
 
   componentWillMount() {
-    socket.on('registerres', res => {
-      console.log(res)
+    socket.on('authRes', res => {
       if (res.result === 'Success') {
         localStorage.setItem('cahToken', res.token)
         // will activate the redirect component, sending user to the next page when the page renders
@@ -36,7 +35,6 @@ class Register extends Component {
     // checking login credentials
     const { email, name, password, passwordConf } = this.state
     const body = { email, name, password, passwordConf }
-    console.log(body)
     socket.emit('Register', body)
   }
 
