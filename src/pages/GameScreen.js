@@ -6,12 +6,14 @@
 import React, { Component } from 'react'
 import openSocket from 'socket.io-client'
 
+import { Redirect } from 'react-router-dom'
 import './GameScreen.css'
 import WhiteCard from '../components/WhiteCard'
 import LargeWhiteCard from '../components/LargeWhiteCard'
 import BlackCard from '../components/BlackCard'
 import Chat from '../components/Chat'
 import Players from '../components/Players'
+import decode from 'jwt-decode'
 
 const socket = openSocket('http://localhost:4000')
 
@@ -26,8 +28,7 @@ class GameScreen extends Component {
       players: [],
       selectedWhite: null,
       playedCards: [],
-      username: '',
-      nameInput: '',
+      user: decode(localStorage.getItem('cahToken')),
       messages: [],
       messageInput: '',
     }
@@ -38,6 +39,11 @@ class GameScreen extends Component {
     this.handleMessage()
   }
 
+  componentDidMount() {
+    console.log(this.state.user)
+    this.submitUser(this.state.user)
+  }
+
   handlePlayers() {
     socket.on('Update Players', (players) => {
       this.setState({ players })
@@ -46,7 +52,7 @@ class GameScreen extends Component {
 
   handleMessage() {
     socket.on('New Message', (text, username) => {
-      this.setState({messages: this.state.messages.concat({username, text})})
+      this.setState({ messages: this.state.messages.concat({ username, text }) })
     })
   }
 
@@ -62,21 +68,23 @@ class GameScreen extends Component {
     this.setState({ whiteCards, playedCards })
   }
 
-  submitUsername(e, username) {
-    e.preventDefault()
-    this.setState({ nameInput: '', username })
-    socket.emit('Join Lobby', this.props.match.params.lobbyId, username)
+  submitUser(user) {
+    socket.emit('Join Lobby', this.props.match.params.lobbyId, user)
   }
 
   submitMessage(e, message) {
     e.preventDefault()
-    this.setState({messageInput: ''})
+    this.setState({ messageInput: '' })
     socket.emit('Chat Message', message, this.state.username, this.props.match.params.lobbyId)
   }
 
 
 
   render() {
+    let redirect = true
+    if (localStorage.getItem('cahToken')) {
+      redirect = false
+    }
     const {
       players,
       playedCards,
@@ -84,25 +92,18 @@ class GameScreen extends Component {
       whiteCards,
       selectedWhite,
       username,
-      nameInput,
       messageInput,
       messages,
     } = this.state
     return (
       <div className="game-screen">
+        {redirect && <Redirect to="/login" />}}
         <div className="players">
           <h1>Players</h1>
           <ul>
             {/* eslint-disable-next-line react/destructuring-assignment */}
-            {username
-              ? <Players players={players} />
-              : <div>
-                <form>
-                  <input type="text" value={nameInput} onChange={e => this.setState({ nameInput: e.target.value })} />
-                  <button type="submit" onClick={e => this.submitUsername(e, nameInput)}>Submit Name</button>
-                </form>
-              </div>
-            }
+            <Players players={players} />
+
           </ul>
         </div>
         <div className="play-area">
@@ -117,7 +118,7 @@ class GameScreen extends Component {
         <div className="chat-area">
           <Chat messages={messages} />
           <form>
-            <input type="text" value={messageInput} onChange={e => this.setState({messageInput: e.target.value})} />
+            <input type="text" value={messageInput} onChange={e => this.setState({ messageInput: e.target.value })} />
             <button type="submit" onClick={e => this.submitMessage(e, messageInput)}>Say Something</button>
           </form>
         </div>

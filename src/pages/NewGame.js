@@ -12,9 +12,11 @@ class NewGame extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedSets: [],
+      selectedSets: ['Base'],
       cardSets: [],
       lobbyId: '',
+      lobbyName: '',
+      user: '',
     }
   }
 
@@ -46,9 +48,9 @@ class NewGame extends Component {
   }
 
   // eslint-disable-next-line class-methods-use-this
-  createLobby(e) {
+  createLobby(e, strId) {
     e.preventDefault()
-    socket.emit('Create Lobby')
+    socket.emit('Create Lobby', this.state.selectedSets, strId)
   }
 
   renderSets(sets) {
@@ -62,8 +64,13 @@ class NewGame extends Component {
   }
 
   render() {
+    let redirect = true
+    if(localStorage.getItem('cahToken')) {
+       redirect = false
+    }
     return (
       <div className="newGameContainer">
+      {redirect && <Redirect to="/login" /> }}
         {this.state.lobbyId && <Redirect to={'/play-game/' + this.state.lobbyId} />}
         <div className="playersContainer">
           <h1>Current Players</h1>
@@ -78,7 +85,10 @@ class NewGame extends Component {
         </div>
         <div className="startButton">
           {/* <Link className="Link" to={`${this.props.match.path}/lobby`}>Start!</Link> */}
-          <button type="button" onClick={e => this.createLobby(e)}>Start</button>
+          <form>
+            <input type="text" value={this.state.lobbyName} onChange={e => this.setState({lobbyName: e.target.value})} />
+            <button type="submit" onClick={e => this.createLobby(e, this.state.lobbyName)}>Start</button>
+          </form>
         </div>
         {/* <Route path={`${this.props.match.path}/:lobbyId`} component={() => <GameScreen decks={this.state.selectedSets} />} /> */}
       </div>

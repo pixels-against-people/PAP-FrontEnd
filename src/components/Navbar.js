@@ -13,15 +13,23 @@ class Navbar extends Component {
   }
 
   componentWillMount() {
-      console.log(localStorage.getItem('cahToken'))
-      if(localStorage.getItem('cahToken')) {
-        this.setState({ isAuthed: true })
-      }
+    console.log(localStorage.getItem('cahToken'))
+    if (localStorage.getItem('cahToken')) {
+      this.setState({ isAuthed: true })
+    }
   }
 
   logout() {
-    localStorage.getItem('cahToken')
+    localStorage.removeItem('cahToken')
     this.setState({ isAuthed: false })
+  }
+
+  componentDidUpdate() {
+    if (localStorage.getItem('cahToken')) {
+      if (!this.state.isAuthed) {
+        this.setState({ isAuthed: true })
+      }
+    }
   }
 
   render() {
@@ -37,12 +45,12 @@ class Navbar extends Component {
             <Link to="/user/:id">Profile</Link>
             {/* eslint-disable-next-line */}
             <a onClick={() => this.logout()}>Logout</a>
-            </li>
+          </li>
             :
             <li>
-            <Link to="/register"><p>Sign Up</p></Link>
-            <Link to="/login"><p>Log in</p></Link>
-          </li>
+              <Link to="/register"><p>Sign Up</p></Link>
+              <Link to="/login"><p>Log in</p></Link>
+            </li>
           }
         </ul>
       </nav>
