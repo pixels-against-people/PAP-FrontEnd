@@ -94,7 +94,7 @@
   justify-content: center;
 }
 
-.startButton > .Link {
+.startButton > button {
   text-align: center;
   text-decoration: none;
   padding: 10px;
@@ -103,6 +103,6 @@
   color: var(--primary);
   background-color: var(--secondary);
   width: 60%;
-  height: 40%;
+  height: 70%;
   border: .5px solid var(--secondary);
 }
