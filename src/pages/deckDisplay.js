@@ -20,7 +20,9 @@ class deckDisplay extends Component {
 
   mapCards() {
     const { cards } = this.state
-    const blerg = cards.map
+    const blerg = cards.map((card) => {
+      
+    }
   }
 
   render() {

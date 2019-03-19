@@ -18,6 +18,7 @@
   padding: 8px;
   margin: 15px;
   height: 45px;
+  cursor: pointer;
 }
 
 .unhighlighted {
@@ -28,6 +29,7 @@
   padding: 8px;
   margin: 15px;
   height: 45px;
+  cursor: pointer;
 }
 
 .highlighted:hover, .unhighlighted:hover {
