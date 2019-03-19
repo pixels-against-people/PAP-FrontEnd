@@ -28,16 +28,25 @@ class GameScreen extends Component {
       playedCards: [],
       username: '',
       nameInput: '',
+      messages: [],
+      messageInput: '',
     }
   }
 
   componentWillMount() {
     this.handlePlayers()
+    this.handleMessage()
   }
 
   handlePlayers() {
     socket.on('Update Players', (players) => {
       this.setState({ players })
+    })
+  }
+
+  handleMessage() {
+    socket.on('New Message', (text, username) => {
+      this.setState({messages: this.state.messages.concat({username, text})})
     })
   }
 
@@ -59,6 +68,14 @@ class GameScreen extends Component {
     socket.emit('Join Lobby', this.props.match.params.lobbyId, username)
   }
 
+  submitMessage(e, message) {
+    e.preventDefault()
+    this.setState({messageInput: ''})
+    socket.emit('Chat Message', message, this.state.username, this.props.match.params.lobbyId)
+  }
+
+
+
   render() {
     const {
       players,
@@ -68,6 +85,8 @@ class GameScreen extends Component {
       selectedWhite,
       username,
       nameInput,
+      messageInput,
+      messages,
     } = this.state
     return (
       <div className="game-screen">
@@ -95,7 +114,13 @@ class GameScreen extends Component {
           })}
         </div>
 
-        <div className="chat-area"><Chat socket={socket} /></div>
+        <div className="chat-area">
+          <Chat messages={messages} />
+          <form>
+            <input type="text" value={messageInput} onChange={e => this.setState({messageInput: e.target.value})} />
+            <button type="submit" onClick={e => this.submitMessage(e, messageInput)}>Say Something</button>
+          </form>
+        </div>
         <div className="white-cards">
           <ul>
             {whiteCards.map((card) => {

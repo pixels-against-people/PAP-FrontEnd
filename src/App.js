@@ -36,7 +36,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/home" component={Home} />
           <Route exact path="/game" component={NewGame} />
-          <Route path="/play-game" component={GameScreen} />
+          <Route path="/play-game/:lobbyId" component={GameScreen} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
         </Switch>
