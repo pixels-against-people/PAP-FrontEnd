@@ -25,8 +25,8 @@ class Home extends Component {
     return (
       <div className="homeContainer">
         <div className="buttonContainer">
-          <Link className="Link" to="/game">Play Game</Link>
-          <Link className="Link" to="/">Join Game</Link>
+          <Link className="Link" to="/game">Create Game</Link>
+          <Link className="Link" to="/play-game">Join Game</Link>
         </div>
       </div>
     )
