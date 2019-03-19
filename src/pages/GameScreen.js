@@ -56,6 +56,7 @@ class GameScreen extends Component {
   submitUsername(e, username) {
     e.preventDefault()
     this.setState({ nameInput: '', username })
+    socket.emit('Join Lobby', this.props.match.params.lobbyId, username)
   }
 
   render() {
