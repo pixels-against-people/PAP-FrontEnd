@@ -42,9 +42,9 @@ class Navbar extends Component {
             <Link to="/game"><p>New Game</p></Link>
           </li>
           {this.state.isAuthed ? <li>
-            <Link to="/user/:id">Profile</Link>
+            <Link to="/user/:id"><p>Profile</p></Link>
             {/* eslint-disable-next-line */}
-            <a onClick={() => this.logout()}>Logout</a>
+            <a onClick={() => this.logout()}><p>Logout</p></a>
           </li>
             :
             <li>
