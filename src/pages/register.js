@@ -31,7 +31,8 @@ class Register extends Component {
     })
   }
 
-  handleClick() {
+  handleClick(e) {
+    e.preventDefault()
     // checking login credentials
     const { email, name, password, passwordConf } = this.state
     const body = { email, name, password, passwordConf }
@@ -45,11 +46,13 @@ class Register extends Component {
         { this.state.redirect && <Redirect to="/" /> }
         <div className="signup">
           <h2>Join Today</h2>
-          <input type="text" name="name" placeholder="Nickname" onChange={e => this.setState({ name: e.target.value })} value={this.state.name} />
-          <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
-          <input type="text" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
-          <input type="text" name="passwordConf" placeholder="Password" onChange={e => this.setState({ passwordConf: e.target.value })} value={this.state.passwordConf} />
-          <button type="submit" name="register" onClick={() => this.handleClick()}>Register</button>
+          <form onSubmit={e => this.handleClick(e)}>
+            <input type="text" name="name" placeholder="Nickname" onChange={e => this.setState({ name: e.target.value })} value={this.state.name} />
+            <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
+            <input type="password" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
+            <input type="password" name="passwordConf" placeholder="Password Confirmation" onChange={e => this.setState({ passwordConf: e.target.value })} value={this.state.passwordConf} />
+            <button type="submit" name="register">Register</button>
+          </form>
           <span>
               Already Have an Account?
             <Link to="/login"> Login</Link>

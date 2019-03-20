@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import './app.css'
-import Home from './pages/Home'
+import Home from './pages/home'
 import NewGame from './pages/NewGame'
 import GameScreen from './pages/GameScreen'
 import Navbar from './components/Navbar'

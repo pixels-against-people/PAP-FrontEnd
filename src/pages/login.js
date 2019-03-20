@@ -36,7 +36,8 @@ class Login extends Component {
   }
     
 
-  handleClick() {
+  handleClick(e) {
+    e.preventDefault()
     // checking login credentials
     const { email, password } = this.state
     const body = { email, password }
@@ -52,9 +53,11 @@ class Login extends Component {
           {redirect && <Redirect to="/" />}
           <h1>Welcome Back</h1>
           {this.state.loginFail && <div className="loginFail"><span>Username or Password Incorrect</span></div>}
-          <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
-          <input type="text" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
-          <button type="submit" name="register" onClick={() => this.handleClick()}>Login</button>
+          <form onSubmit={e => this.handleClick(e)}>
+            <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
+            <input type="password" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
+            <button type="submit" name="register">Login</button>
+          </form>
           <span>
             New around here?
             <Link to="/register"> Create an Account</Link>

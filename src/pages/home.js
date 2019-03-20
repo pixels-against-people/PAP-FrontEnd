@@ -26,7 +26,7 @@ class Home extends Component {
       <div className="homeContainer">
         <div className="buttonContainer">
           <Link className="Link" to="/game">Create Game</Link>
-          <input type="text" value={this.state.lobbyId} onChange={e => this.setState({ lobbyId: e.target.value })} />
+          {/* <input type="text" value={this.state.lobbyId} onChange={e => this.setState({ lobbyId: e.target.value })} /> */}
           <Link className="Link" to={"/play-game/"+this.state.lobbyId}>Join Game</Link>
         </div>
       </div>

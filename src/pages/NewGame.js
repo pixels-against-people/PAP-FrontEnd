@@ -95,8 +95,8 @@ class NewGame extends Component {
         </div>
         <div className="startButton">
           {/* <Link className="Link" to={`${this.props.match.path}/lobby`}>Start!</Link> */}
-          <form>
-            <input type="text" value={this.state.lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
+          <form className="startForm">
+            <input type="text" placeholder="Lobby Name" value={this.state.lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
             <button type="submit" onClick={e => this.createLobby(e, this.state.lobbyName)}>Start</button>
           </form>
         </div>
