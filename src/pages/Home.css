@@ -1,10 +1,11 @@
 .homeContainer {
-  height: 100vh;
+  height: calc(100vh - 75px);
   width: 100vw;
   background: url("https://mondrian.mashable.com/2015%252F03%252F11%252Fe6%252FCardsAgains.5d039.jpg%252F950x534__filters%253Aquality%252890%2529.jpg?signature=KUpKv8en4SDlog0IvvR7uuBaaa8=");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
+  overflow: hidden;
 }
 
 .homeContainer > .buttonContainer {
