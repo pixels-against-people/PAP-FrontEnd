@@ -53,7 +53,14 @@ class NewGame extends Component {
   // eslint-disable-next-line class-methods-use-this
   createLobby(e, strId) {
     e.preventDefault()
-    socket.emit('Create Lobby', this.state.selectedSets, strId, decode(localStorage.getItem('cahToken'))._id)
+    console.log(`https://cards-against-humanity-api.herokuapp.com/sets/multi?sets=${this.state.selectedSets}`)
+    fetch((`https://cards-against-humanity-api.herokuapp.com/sets/multi?sets=${this.state.selectedSets}`))
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        socket.emit('Create Lobby', res, strId, decode(localStorage.getItem('cahToken'))._id)
+
+      })
   }
 
   renderSets(sets) {
@@ -68,12 +75,12 @@ class NewGame extends Component {
 
   render() {
     let redirect = true
-    if(localStorage.getItem('cahToken')) {
-       redirect = false
+    if (localStorage.getItem('cahToken')) {
+      redirect = false
     }
     return (
       <div className="newGameContainer">
-      {redirect && <Redirect to="/login" /> }}
+        {redirect && <Redirect to="/login" />}}
         {this.state.lobbyId && <Redirect to={'/play-game/' + this.state.lobbyId} />}
         <div className="playersContainer">
           <h1>Current Players</h1>
@@ -89,7 +96,7 @@ class NewGame extends Component {
         <div className="startButton">
           {/* <Link className="Link" to={`${this.props.match.path}/lobby`}>Start!</Link> */}
           <form>
-            <input type="text" value={this.state.lobbyName} onChange={e => this.setState({lobbyName: e.target.value})} />
+            <input type="text" value={this.state.lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
             <button type="submit" onClick={e => this.createLobby(e, this.state.lobbyName)}>Start</button>
           </form>
         </div>
