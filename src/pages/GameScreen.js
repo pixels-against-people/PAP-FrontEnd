@@ -45,7 +45,9 @@ class GameScreen extends Component {
 
   handlePlayers() {
     socket.on('Update Players', (players) => {
-      this.setState({ players })
+      const whiteCards = players.reduce((me, player) => (player.id === this.state.user._id ? player : me)).cards
+      this.setState({ players, whiteCards })
+      console.log(players.reduce((me, player) => (player.id === this.state.user._id ? player : me)))
     })
   }
 
@@ -95,7 +97,7 @@ class GameScreen extends Component {
     } = this.state
     return (
       <div className="game-screen">
-        {redirect && <Redirect to="/login" />}}
+        {redirect && <Redirect to="/login" />}
         <div className="players">
           <h1>Players</h1>
           <ul>
