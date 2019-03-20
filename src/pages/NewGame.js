@@ -27,10 +27,6 @@ class NewGame extends Component {
     socket.on("Lobby Created", (lobbyId) => {
       this.setState({ lobbyId })
     })
-  }
-
-  componentDidMount() {
-    // generates setlist from the CAH-API when the component is called
     fetch('https://cards-against-humanity-api.herokuapp.com/sets')
       .then(response => response.json())
       .then((sets) => {
