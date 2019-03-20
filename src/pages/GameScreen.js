@@ -31,6 +31,9 @@ class GameScreen extends Component {
       user: decode(localStorage.getItem('cahToken')),
       messages: [],
       messageInput: '',
+      gameState: '',
+      owner: false,
+      lobby: this.props.match.params.lobbyId
     }
   }
 
@@ -44,10 +47,12 @@ class GameScreen extends Component {
   }
 
   handlePlayers() {
-    socket.on('Update Players', (players) => {
-      const whiteCards = players.reduce((me, player) => (player.id === this.state.user._id ? player : me)).cards
-      this.setState({ players, whiteCards })
-      console.log(players.reduce((me, player) => (player.id === this.state.user._id ? player : me)))
+    socket.on('Update Players', (lobby) => {
+      const { users: players, gameState, currBlack: blackCard} = lobby
+      const player = players.reduce((me, player) => (player.id === this.state.user._id ? player : me))
+      const owner = player.owner
+      const whiteCards = player.cards
+      this.setState({ players, whiteCards, gameState, owner, blackCard })
     })
   }
 
@@ -70,13 +75,17 @@ class GameScreen extends Component {
   }
 
   submitUser(user) {
-    socket.emit('Join Lobby', this.props.match.params.lobbyId, user)
+    socket.emit('Join Lobby', this.state.lobby, user)
   }
 
   submitMessage(e, message) {
     e.preventDefault()
     this.setState({ messageInput: '' })
-    socket.emit('Chat Message', message, this.state.user.name, this.props.match.params.lobbyId)
+    socket.emit('Chat Message', message, this.state.user.name, this.state.lobby)
+  }
+
+  startGame() {
+    socket.emit('Start Game', this.state.lobby)
   }
 
 
@@ -94,7 +103,45 @@ class GameScreen extends Component {
       selectedWhite,
       messageInput,
       messages,
+      gameState,
+      owner,
     } = this.state
+
+    const playArea = () => {
+      switch (gameState) {
+        case 'Idle':
+          return (
+            <div className="play-area">
+              <h1>Waiting For Players</h1>
+              {(players.length >= 2 && owner) && <button onClick={() => this.startGame()}>Start Game</button>}
+
+            </div>
+          )
+        case 'Playing':
+          return (
+            <div className="play-area">
+              <BlackCard card={blackCard} />
+              {playedCards.map((card) => {
+                return (
+                  <LargeWhiteCard key={card} text={card} />
+                )
+              })}
+            </div>
+
+          )
+        case 'Selecting':
+          return (
+            <div className="play-area">
+              <p>Selecting</p>
+            </div>
+          )
+        default:
+          return <p>it broke dude</p>
+      }
+    }
+
+
+
     return (
       <div className="game-screen">
         {redirect && <Redirect to="/login" />}
@@ -106,14 +153,7 @@ class GameScreen extends Component {
 
           </ul>
         </div>
-        <div className="play-area">
-          <BlackCard card={blackCard} />
-          {playedCards.map((card) => {
-            return (
-              <LargeWhiteCard key={card} text={card} />
-            )
-          })}
-        </div>
+          {playArea()}
 
         <div className="chat-area">
           <Chat messages={messages} />
