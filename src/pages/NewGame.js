@@ -1,10 +1,13 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
 import React, { Component } from 'react'
+import decode from 'jwt-decode'
+
 import openSocket from 'socket.io-client'
 import { Redirect } from 'react-router-dom'
 import './NewGame.css'
 import SetSelect from '../components/SetSelect'
+
 const socket = openSocket('http://localhost:4000')
 // import GameScreen from './GameScreen'
 
@@ -50,7 +53,7 @@ class NewGame extends Component {
   // eslint-disable-next-line class-methods-use-this
   createLobby(e, strId) {
     e.preventDefault()
-    socket.emit('Create Lobby', this.state.selectedSets, strId)
+    socket.emit('Create Lobby', this.state.selectedSets, strId, decode(localStorage.getItem('cahToken'))._id)
   }
 
   renderSets(sets) {

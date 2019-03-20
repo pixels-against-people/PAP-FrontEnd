@@ -13,7 +13,6 @@ class Navbar extends Component {
   }
 
   componentWillMount() {
-    console.log(localStorage.getItem('cahToken'))
     if (localStorage.getItem('cahToken')) {
       this.setState({ isAuthed: true })
     }

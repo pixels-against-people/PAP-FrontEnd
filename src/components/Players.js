@@ -10,8 +10,8 @@ const Players = (props) => {
   const { players } = props
   const mappedPlayers = players.map((player) => {
     return (
-      <li className="player" key={player.name}>
-        <h3>{player.name}</h3>
+      <li className="player" key={player.id}>
+        <h3>{player.name} {player.owner && "(Owner)"}</h3>
         <p>points: {player.points}</p>
       </li>
     )
