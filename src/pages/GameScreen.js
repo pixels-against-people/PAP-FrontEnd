@@ -32,8 +32,10 @@ class GameScreen extends Component {
       messages: [],
       messageInput: '',
       gameState: '',
+      clientActive: true, //Playing or not
       owner: false,
-      lobby: this.props.match.params.lobbyId
+      lobby: this.props.match.params.lobbyId,
+      czar: false,
     }
   }
 
@@ -48,11 +50,28 @@ class GameScreen extends Component {
 
   handlePlayers() {
     socket.on('Update Players', (lobby) => {
-      const { users: players, gameState, currBlack: blackCard} = lobby
+      const { users: players, gameState, currBlack: blackCard, czar: czarId, playedWhite: playedCards } = lobby
       const player = players.reduce((me, player) => (player.id === this.state.user._id ? player : me))
       const owner = player.owner
       const whiteCards = player.cards
-      this.setState({ players, whiteCards, gameState, owner, blackCard })
+      let czar = false
+      if (czarId === player.id) {
+        czar = true
+      }
+      let clientActive = false
+      if (!player.played) {
+        if (gameState === 'Playing') {
+          if (!czar) {
+            clientActive = true
+          }
+        }
+        else if (gameState === 'Selecting') {
+          if (czar) {
+            clientActive = true
+          }
+        }
+      }
+      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards })
     })
   }
 
@@ -68,10 +87,13 @@ class GameScreen extends Component {
 
   submit(card) {
     // eslint-disable-next-line prefer-const
-    let { whiteCards, playedCards } = this.state;
-    whiteCards.splice(whiteCards.indexOf(card), 1)
-    playedCards = playedCards.concat(card)
-    this.setState({ whiteCards, playedCards })
+    let { whiteCards, playedCards, clientActive, user, lobby } = this.state;
+    if (clientActive) {
+      whiteCards.splice(whiteCards.indexOf(card), 1)
+      playedCards = playedCards.concat(card)
+      socket.emit('Submit Card', lobby, user._id, card)
+      this.setState({ whiteCards, playedCards, clientActive: false })
+    }
   }
 
   submitUser(user) {
@@ -104,7 +126,9 @@ class GameScreen extends Component {
       messageInput,
       messages,
       gameState,
+      clientActive,
       owner,
+      czar,
     } = this.state
 
     const playArea = () => {
@@ -123,7 +147,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card} text={card} />
+                  <LargeWhiteCard key={card.userId} text={card.card} />
                 )
               })}
             </div>
@@ -153,7 +177,7 @@ class GameScreen extends Component {
 
           </ul>
         </div>
-          {playArea()}
+        {playArea()}
 
         <div className="chat-area">
           <Chat messages={messages} />
@@ -163,21 +187,27 @@ class GameScreen extends Component {
           </form>
         </div>
         <div className="white-cards">
-          <ul>
-            {whiteCards.map((card) => {
-              return (
+          <p>{czar && 'czar'}</p>
+          {clientActive ?
+            <ul>
+              {whiteCards.map((card) => {
+                return (
 
-                <li key={card}>
-                  <WhiteCard
-                    text={card}
-                    selected={card === selectedWhite}
-                    onclick={() => this.selectCard(card)}
-                    submit={() => this.submit(card)}
-                  />
-                </li>
-              )
-            })}
-          </ul>
+                  <li key={card}>
+                    <WhiteCard
+                      text={card}
+                      selected={card === selectedWhite}
+                      onclick={() => this.selectCard(card)}
+                      submit={() => this.submit(card)}
+                    />
+                  </li>
+                )
+              })}
+            </ul>
+            :
+            (gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : <h1>Card Csar is picking a winner</h1>)
+
+          }
         </div>
       </div>
     )
