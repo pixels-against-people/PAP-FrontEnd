@@ -53,7 +53,7 @@ class GameScreen extends Component {
       const { users: players, gameState, currBlack: blackCard, czar: czarId, playedWhite: playedCards } = lobby
       const player = players.reduce((me, player) => (player.id === this.state.user._id ? player : me))
       const owner = player.owner
-      const whiteCards = player.cards
+      let whiteCards = player.cards
       let czar = false
       if (czarId === player.id) {
         czar = true
@@ -68,6 +68,7 @@ class GameScreen extends Component {
         else if (gameState === 'Selecting') {
           if (czar) {
             clientActive = true
+            whiteCards = lobby.playedWhite.map(card => card.card)
           }
         }
       }
@@ -87,12 +88,17 @@ class GameScreen extends Component {
 
   submit(card) {
     // eslint-disable-next-line prefer-const
-    let { whiteCards, playedCards, clientActive, user, lobby } = this.state;
+    let { whiteCards, playedCards, clientActive, user, lobby, czar, gameState } = this.state;
     if (clientActive) {
-      whiteCards.splice(whiteCards.indexOf(card), 1)
-      playedCards = playedCards.concat(card)
-      socket.emit('Submit Card', lobby, user._id, card)
-      this.setState({ whiteCards, playedCards, clientActive: false })
+      if (!czar && gameState === 'Playing') {
+        whiteCards.splice(whiteCards.indexOf(card), 1)
+        playedCards = playedCards.concat(card)
+        socket.emit('Submit Card', lobby, user._id, card)
+        this.setState({ whiteCards, playedCards, clientActive: false })
+      }
+      else if (czar && gameState === "Selecting" ){
+        socket.emit('Select Winner', lobby, card)
+      }
     }
   }
 
@@ -137,7 +143,7 @@ class GameScreen extends Component {
           return (
             <div className="play-area">
               <h1>Waiting For Players</h1>
-              {(players.length >= 2 && owner) && <button onClick={() => this.startGame()}>Start Game</button>}
+              {(players.length >= 3 && owner) && <button onClick={() => this.startGame()}>Start Game</button>}
 
             </div>
           )
@@ -147,7 +153,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.userId} text={card.card} />
+                  <LargeWhiteCard key={card.card + card.userId} text={card.card} />
                 )
               })}
             </div>
@@ -156,7 +162,12 @@ class GameScreen extends Component {
         case 'Selecting':
           return (
             <div className="play-area">
-              <p>Selecting</p>
+              <BlackCard card={blackCard} />
+              {!czar && playedCards.map((card) => {
+                return (
+                  <LargeWhiteCard key={card.card + card.userId} text={card.card} />
+                )
+              })}
             </div>
           )
         default:
@@ -205,7 +216,7 @@ class GameScreen extends Component {
               })}
             </ul>
             :
-            (gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : <h1>Card Csar is picking a winner</h1>)
+            (gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : <h1>Card czar is picking a winner</h1>)
 
           }
         </div>
