@@ -40,7 +40,6 @@ class GameScreen extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.user)
     this.submitUser(this.state.user)
   }
 
@@ -75,7 +74,7 @@ class GameScreen extends Component {
   submitMessage(e, message) {
     e.preventDefault()
     this.setState({ messageInput: '' })
-    socket.emit('Chat Message', message, this.state.username, this.props.match.params.lobbyId)
+    socket.emit('Chat Message', message, this.state.user.name, this.props.match.params.lobbyId)
   }
 
 
@@ -91,7 +90,6 @@ class GameScreen extends Component {
       blackCard,
       whiteCards,
       selectedWhite,
-      username,
       messageInput,
       messages,
     } = this.state
