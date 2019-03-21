@@ -15,7 +15,7 @@ import Chat from '../components/Chat'
 import Players from '../components/Players'
 import decode from 'jwt-decode'
 
-const socket = openSocket('http://localhost:4000')
+const socket = openSocket(process.env.socketConnection)
 
 
 class GameScreen extends Component {
