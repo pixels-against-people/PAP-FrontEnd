@@ -8,7 +8,9 @@ import { Redirect } from 'react-router-dom'
 import './NewGame.css'
 import SetSelect from '../components/SetSelect'
 
-const socket = openSocket(process.env.socketConnection)
+// const socket = openSocket(process.env.socketConnection)
+const socket = openSocket('http://localhost:4000')
+
 // import GameScreen from './GameScreen'
 
 class NewGame extends Component {
