@@ -16,7 +16,7 @@ import Players from '../components/Players'
 import decode from 'jwt-decode'
 
 // const socket = openSocket(process.env.socketConnection)
-const socket = openSocket('http://localhost:4000')
+const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 
