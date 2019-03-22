@@ -197,8 +197,8 @@ class GameScreen extends Component {
         <div className="chat-area">
           <Chat messages={messages} />
           <form>
-            <input type="text" value={messageInput} onChange={e => this.setState({ messageInput: e.target.value })} />
-            <button type="submit" onClick={e => this.submitMessage(e, messageInput)}>Say Something</button>
+            <input type="text" placeholder="Say Something" value={messageInput} onChange={e => this.setState({ messageInput: e.target.value })} />
+            <button type="submit"  onClick={e => this.submitMessage(e, messageInput)}>Say Something</button>
           </form>
         </div>
         <div className="white-cards">
