@@ -16,7 +16,7 @@ import Players from '../components/Players'
 import decode from 'jwt-decode'
 
 // const socket = openSocket(process.env.socketConnection)
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
 
 
 
@@ -38,6 +38,7 @@ class GameScreen extends Component {
       owner: false,
       lobby: this.props.match.params.lobbyId,
       czar: false,
+      czarId: '',
     }
   }
 
@@ -74,7 +75,7 @@ class GameScreen extends Component {
           }
         }
       }
-      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards })
+      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards, czarId })
     })
   }
 
@@ -137,6 +138,7 @@ class GameScreen extends Component {
       clientActive,
       owner,
       czar,
+      czarId,
     } = this.state
 
     const playArea = () => {
@@ -155,7 +157,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} text={card.card} />
+                  <LargeWhiteCard key={card.card + card.userId} text={card.card} gameState={gameState} />
                 )
               })}
             </div>
@@ -167,7 +169,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {!czar && playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} text={card.card} />
+                  <LargeWhiteCard key={card.card + card.userId} text={card.card} gameState={gameState} />
                 )
               })}
             </div>
@@ -186,7 +188,7 @@ class GameScreen extends Component {
           <h1>Players</h1>
           <ul>
             {/* eslint-disable-next-line react/destructuring-assignment */}
-            <Players players={players} />
+            <Players players={players} czarId={czarId}/>
 
           </ul>
         </div>
@@ -200,7 +202,6 @@ class GameScreen extends Component {
           </form>
         </div>
         <div className="white-cards">
-          <p>{czar && 'czar'}</p>
           {clientActive ?
             <ul>
               {whiteCards.map((card) => {
@@ -218,7 +219,7 @@ class GameScreen extends Component {
               })}
             </ul>
             :
-            (gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : <h1>Card czar is picking a winner</h1>)
+            <div className="inactive"> {gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : (gameState==="Idle"? <h1>Waiting for the game to start</h1> : <h1>Card czar is picking a winner</h1>)} </div>
 
           }
         </div>

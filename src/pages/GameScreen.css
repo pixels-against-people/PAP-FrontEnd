@@ -59,3 +59,7 @@
   transform: translateY(-46%);
 
 }
+
+.game-screen .white-cards > .inactive {
+  text-align: center;
+}

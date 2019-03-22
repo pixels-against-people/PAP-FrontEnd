@@ -7,7 +7,7 @@ import { Link, Redirect } from 'react-router-dom'
 import openSocket from 'socket.io-client'
 
 // const socket = openSocket(process.env.socketConnection)
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
 
 
 class Login extends Component {
@@ -43,6 +43,7 @@ class Login extends Component {
     // checking login credentials
     const { email, password } = this.state
     const body = { email, password }
+
     socket.emit("Login", body)
   }
 

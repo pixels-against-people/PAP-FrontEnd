@@ -9,7 +9,7 @@ import './NewGame.css'
 import SetSelect from '../components/SetSelect'
 
 // const socket = openSocket(process.env.socketConnection)
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
 
 // import GameScreen from './GameScreen'
 
