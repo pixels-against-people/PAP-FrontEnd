@@ -15,8 +15,8 @@ import Chat from '../components/Chat'
 import Players from '../components/Players'
 import decode from 'jwt-decode'
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 
@@ -40,16 +40,25 @@ class GameScreen extends Component {
       lobby: this.props.match.params.lobbyId,
       czar: false,
       czarId: '',
+      winningCard: null,
     }
   }
 
   componentWillMount() {
     this.handlePlayers()
     this.handleMessage()
+    this.handleWinCard()
   }
 
   componentDidMount() {
     this.submitUser(this.state.user)
+  }
+
+  handleWinCard() {
+    socket.on('Winning Card', (userId) => {
+      console.log("somone won")
+      this.setState({winningCard: userId})
+    })
   }
 
   handlePlayers() {
@@ -141,6 +150,7 @@ class GameScreen extends Component {
       owner,
       czar,
       czarId,
+      winningCard,
     } = this.state
 
     const playArea = () => {
@@ -159,7 +169,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} text={card.card} gameState={gameState} />
+                  <LargeWhiteCard key={card.card + card.userId} card={card} gameState={gameState}/>
                 )
               })}
             </div>
@@ -171,7 +181,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {!czar && playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} text={card.card} gameState={gameState} />
+                  <LargeWhiteCard key={card.card + card.userId} card={card} gameState={gameState} winner={winningCard} />
                 )
               })}
             </div>
