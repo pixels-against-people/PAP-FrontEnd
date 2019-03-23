@@ -6,7 +6,6 @@ import './Home.css'
 import { Socket } from 'dgram';
 import openSocket from 'socket.io-client'
 
-
 const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class Home extends Component {
