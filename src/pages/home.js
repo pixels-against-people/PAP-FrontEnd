@@ -3,11 +3,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './Home.css'
-import { Socket } from 'dgram';
-import openSocket from 'socket.io-client'
 
 
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class Home extends Component {
   constructor(props) {
@@ -15,12 +12,6 @@ class Home extends Component {
     this.state = {
       decks: [],
     }
-  }
-
-  componentWillMount() {
-    socket.on('banner', () => {
-      alert("it works")
-    })
   }
 
   componentDidMount() {
