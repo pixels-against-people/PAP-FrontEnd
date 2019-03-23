@@ -5,9 +5,11 @@ import React from 'react'
 import './LargeWhiteCard.css'
 
 const LargeWhiteCard = (props) => {
+  const { text, gameState } = props
   return (
     <div className="lwc">
-      <p>{props.text}</p>
+    {gameState==="Selecting"? <p>{text}</p> : <p className="hidden">Pixels Aginst People</p>}
+      
     </div>
   )
 }

@@ -27,6 +27,7 @@ class NewGame extends Component {
 
   componentWillMount() {
     socket.on("Lobby Created", (lobbyId) => {
+      console.log(lobbyId)
       this.setState({ lobbyId })
     })
     fetch('https://cards-against-humanity-api.herokuapp.com/sets')

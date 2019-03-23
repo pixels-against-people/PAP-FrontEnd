@@ -1,17 +1,25 @@
-.chat {
-  height: 60%;
+.chat-area .username {
+  font-weight: bold;
+}
+
+.chat-area ul {
+  list-style: none;
+}
+
+.chat-area {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: center;
-  /* width: 100%; */
 }
 
-.chat > p {
-  /* transform: rotate(80deg); */
-  /* letter-spacing: .7em; */
-  transform: rotate(80deg) scale(3);
-  font-weight: bold;
+.chat-area > form > button {
+  display: none
+}
 
-  
+.chat-area > form > input {
+  width: calc(100% - 22px);
+  height: 30px;
+  padding: 5px;
+  margin: 5px;
+
 }

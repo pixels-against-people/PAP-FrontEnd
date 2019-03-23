@@ -18,3 +18,8 @@
 .lwc p {
   margin: 5px 0px;
 }
+
+.lwc > .hidden {
+  margin: auto;
+  text-align: center;
+}

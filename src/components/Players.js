@@ -5,13 +5,14 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react'
 import './Players.css'
+import decode from 'jwt-decode'
 
 const Players = (props) => {
-  const { players } = props
+  const { players, czarId } = props
   const mappedPlayers = players.map((player) => {
     return (
       <li className="player" key={player.id}>
-        <h3>{player.name} {player.owner && "(Owner)"}</h3>
+        <h3>{decode(localStorage.getItem('cahToken'))._id===player.id && 'Me: '}{player.name} {czarId===player.id && "(Card Czar)"}</h3>
         <p>points: {player.points}</p>
       </li>
     )

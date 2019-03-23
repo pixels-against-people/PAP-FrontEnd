@@ -44,6 +44,7 @@ class Login extends Component {
     // checking login credentials
     const { email, password } = this.state
     const body = { email, password }
+
     socket.emit("Login", body)
   }
 
