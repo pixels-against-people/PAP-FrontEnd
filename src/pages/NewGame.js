@@ -9,7 +9,7 @@ import './NewGame.css'
 import SetSelect from '../components/SetSelect'
 
 // const socket = openSocket(process.env.socketConnection)
-const socket = openSocket('http://localhost:4000')
+const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 // import GameScreen from './GameScreen'
 
@@ -27,6 +27,7 @@ class NewGame extends Component {
 
   componentWillMount() {
     socket.on("Lobby Created", (lobbyId) => {
+      console.log(lobbyId)
       this.setState({ lobbyId })
     })
     fetch('https://cards-against-humanity-api.herokuapp.com/sets')

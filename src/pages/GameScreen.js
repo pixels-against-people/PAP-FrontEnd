@@ -16,7 +16,7 @@ import Players from '../components/Players'
 import decode from 'jwt-decode'
 
 // const socket = openSocket(process.env.socketConnection)
-const socket = openSocket('http://localhost:4000')
+const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 
@@ -54,6 +54,7 @@ class GameScreen extends Component {
   handlePlayers() {
     socket.on('Update Players', (lobby) => {
       const { users: players, gameState, currBlack: blackCard, czar: czarId, playedWhite: playedCards } = lobby
+      console.log(lobby)
       const player = players.reduce((me, player) => (player.id === this.state.user._id ? player : me))
       const owner = player.owner
       let whiteCards = player.cards
