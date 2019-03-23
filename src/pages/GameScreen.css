@@ -60,6 +60,13 @@
 
 }
 
+.game-screen .white-cards button {
+  padding: 20px;
+  border: none;
+  border-radius: 10px;
+  background: var(--primary);
+}
+
 .game-screen .white-cards > .inactive {
   text-align: center;
 }

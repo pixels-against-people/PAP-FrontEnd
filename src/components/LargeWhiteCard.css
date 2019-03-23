@@ -19,11 +19,25 @@
   margin: 5px 0px;
 }
 
-.lwc > .hidden {
+
+
+.lwc>.hidden {
   margin: auto;
   text-align: center;
 }
 
 .winning-card {
-  color: blue;
+  box-shadow: 5px 5px 5px
+}
+
+.lwc div  {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.lwc div p:last-child {
+  text-align: right;
 }

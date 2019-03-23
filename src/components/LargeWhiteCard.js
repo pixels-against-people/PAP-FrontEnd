@@ -14,7 +14,7 @@ const LargeWhiteCard = (props) => {
   }
   return (
     <div className={"lwc " + classes}>
-    {gameState==="Selecting"? <div><p>{card.card}</p>{winner && <p>{card.name}</p>}</div> : <p className="hidden">Pixels Aginst People</p>}
+    {gameState==="Selecting"? <div><p>{card.card}</p><p>{winner && card.name}</p></div> : <p className="hidden">Pixels Aginst People</p>}
       
     </div>
   )
