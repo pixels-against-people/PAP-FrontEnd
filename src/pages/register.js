@@ -6,10 +6,8 @@ import './login.css'
 import { Link, Redirect } from 'react-router-dom'
 import openSocket from 'socket.io-client'
 
-// const socket = openSocket(process.env.socketConnection)
+// const socket = openSocket('http://localhost:4000')
 const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
-
-
 
 class Register extends Component {
   constructor(props) {
@@ -25,6 +23,7 @@ class Register extends Component {
 
   componentWillMount() {
     socket.on('authRes', res => {
+      console.log("response recieved")
       if (res.result === 'Success') {
         localStorage.setItem('cahToken', res.token)
         // will activate the redirect component, sending user to the next page when the page renders
