@@ -22,10 +22,6 @@ class Home extends Component {
       }).catch(err => console.log(err.message))
   }
 
-  banner() {
-    socket.emit("banner")
-  }
-
   render() {
     return (
       <div className="homeContainer">
