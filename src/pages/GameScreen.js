@@ -86,7 +86,7 @@ class GameScreen extends Component {
           }
         }
       }
-      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards, czarId })
+      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards, czarId, winningCard: null})
     })
   }
 
