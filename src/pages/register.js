@@ -6,8 +6,8 @@ import './login.css'
 import { Link, Redirect } from 'react-router-dom'
 import openSocket from 'socket.io-client'
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class Register extends Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class Register extends Component {
       password: '',
       passwordConf: '',
       redirect: false,
+      registerFail: false,
     }
   }
 
@@ -28,6 +29,8 @@ class Register extends Component {
         localStorage.setItem('cahToken', res.token)
         // will activate the redirect component, sending user to the next page when the page renders
         this.setState({ redirect: true })
+      } else {
+        this.setState({ registerFail: true })
       }
     })
   }
@@ -48,6 +51,7 @@ class Register extends Component {
         <div className="signup">
           <h2>Join Today</h2>
           <form onSubmit={e => this.handleClick(e)}>
+          {this.state.registerFail && <div className="loginFail"><span>This Email is Already in Use</span></div>}
             <input type="text" name="name" placeholder="Nickname" onChange={e => this.setState({ name: e.target.value })} value={this.state.name} />
             <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
             <input type="password" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
