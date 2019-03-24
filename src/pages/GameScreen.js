@@ -40,16 +40,25 @@ class GameScreen extends Component {
       lobby: this.props.match.params.lobbyId,
       czar: false,
       czarId: '',
+      winningCard: null,
     }
   }
 
   componentWillMount() {
     this.handlePlayers()
     this.handleMessage()
+    this.handleWinCard()
   }
 
   componentDidMount() {
     this.submitUser(this.state.user)
+  }
+
+  handleWinCard() {
+    socket.on('Winning Card', (userId) => {
+      console.log("somone won")
+      this.setState({winningCard: userId})
+    })
   }
 
   handlePlayers() {
@@ -103,6 +112,7 @@ class GameScreen extends Component {
       }
       else if (czar && gameState === "Selecting" ){
         socket.emit('Select Winner', lobby, card)
+        this.setState({czar: false, clientActive: false})
       }
     }
   }
@@ -119,6 +129,10 @@ class GameScreen extends Component {
 
   startGame() {
     socket.emit('Start Game', this.state.lobby)
+  }
+
+  nextHand() {
+    socket.emit('Update Lobby', this.state.lobby)
   }
 
 
@@ -141,6 +155,7 @@ class GameScreen extends Component {
       owner,
       czar,
       czarId,
+      winningCard,
     } = this.state
 
     const playArea = () => {
@@ -159,7 +174,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} text={card.card} gameState={gameState} />
+                  <LargeWhiteCard key={card.card + card.userId} card={card} gameState={gameState}/>
                 )
               })}
             </div>
@@ -171,7 +186,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {!czar && playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} text={card.card} gameState={gameState} />
+                  <LargeWhiteCard key={card.card + card.userId} card={card} gameState={gameState} winner={winningCard} />
                 )
               })}
             </div>
@@ -221,7 +236,9 @@ class GameScreen extends Component {
               })}
             </ul>
             :
-            <div className="inactive"> {gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : (gameState==="Idle"? <h1>Waiting for the game to start</h1> : <h1>Card czar is picking a winner</h1>)} </div>
+            <div className="inactive">
+             {gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : (gameState==="Idle"? <h1>Waiting for the game to start</h1> : (winningCard? <div><h1>{winningCard.name} Won the Round</h1> <button onClick={() => this.nextHand()}>next hand</button></div>: <h1>Card czar is picking a winner</h1>))} 
+             </div>
 
           }
         </div>
