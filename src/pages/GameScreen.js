@@ -15,8 +15,8 @@ import Chat from '../components/Chat'
 import Players from '../components/Players'
 import decode from 'jwt-decode'
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 
@@ -48,6 +48,8 @@ class GameScreen extends Component {
     this.handlePlayers()
     this.handleMessage()
     this.handleWinCard()
+    this.handleAISubmit()
+    this.handleAICzar()
   }
 
   componentDidMount() {
@@ -61,12 +63,28 @@ class GameScreen extends Component {
     })
   }
 
+  handleAICzar() {
+    socket.on('AI pick', card => {
+      socket.emit('Select Winner', this.state.lobby, card)
+    })
+  }
+
+  handleAISubmit() {
+    socket.on('AI submit', (lobby, botId, card) => {
+      console.log("lobby id " + lobby)
+      console.log("bot id " + botId)
+      console.log("card is " + card)
+      socket.emit('Submit Card', lobby, botId, card)
+    })
+  }
+
   handlePlayers() {
     socket.on('Update Players', (lobby) => {
-      const { users: players, gameState, currBlack: blackCard, czar: czarId, playedWhite: playedCards } = lobby
-      console.log(lobby)
+      const { users: players, AIUsers, gameState, currBlack: blackCard, czar: czarId, playedWhite: playedCards } = lobby
+      console.log(playedCards)
       const player = players.reduce((me, player) => (player.id === this.state.user._id ? player : me))
       const owner = player.owner
+      let aiPlay = players.length - AIUsers.length
       let whiteCards = player.cards
       let czar = false
       if (czarId === player.id) {
@@ -77,6 +95,8 @@ class GameScreen extends Component {
         if (gameState === 'Playing') {
           if (!czar) {
             clientActive = true
+          } else {
+            aiPlay -= 1
           }
         }
         else if (gameState === 'Selecting') {
@@ -85,6 +105,9 @@ class GameScreen extends Component {
             whiteCards = lobby.playedWhite.map(card => card.card)
           }
         }
+      }
+      if(playedCards.length === aiPlay) {
+        socket.emit("AI play", lobby)
       }
       this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards, czarId, winningCard: null})
     })
@@ -181,6 +204,7 @@ class GameScreen extends Component {
 
           )
         case 'Selecting':
+          socket.emit("checkAI", this.state.lobby)
           return (
             <div className="play-area">
               <BlackCard card={blackCard} />

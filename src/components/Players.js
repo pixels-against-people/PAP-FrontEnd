@@ -11,9 +11,9 @@ const Players = (props) => {
   const { players, czarId } = props
   const mappedPlayers = players.map((player) => {
     return (
-      <li className="player" key={player.id}>
+      <li className="player" key={player.id ? player.id : player.name}>
         <h3>{decode(localStorage.getItem('cahToken'))._id===player.id && 'Me: '}{player.name} {czarId===player.id && "(Card Czar)"}</h3>
-        <p>points: {player.points}</p>
+        <p>points: {player.points ? player.points : 0}</p>
       </li>
     )
   })

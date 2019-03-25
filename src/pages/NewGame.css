@@ -3,10 +3,10 @@
   height: calc(100vh - 75px);
   width: 100vw;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 3fr 1fr;
   grid-template-rows: 1fr 80px;
   grid-template-areas: 'p s s'
-                       '. b .';
+                       'p b .';
 }
 
 /* cardset select styling */
@@ -63,15 +63,19 @@
   font-size: 40px;
 }
 
-.player {
+.players {
   display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
+  grid-area: p;
+  border-right: black solid 1px;
+  overflow: auto;
+  font-size: 1.2em;
 }
 
-.player > span {
-  font-size: 40px;
-  width: 100%;
-  height: 15%;
+.players > ul {
+  padding: 0;
 }
 
 .player > img {
