@@ -28,7 +28,6 @@
   grid-area: a;
   display: flex;
   justify-content: center;
-  flex-direction: column;
   align-items: center;
   overflow-x: auto;
   overflow-y: hidden;
@@ -36,11 +35,18 @@
   /* background: green; */
 }
 
-.game-screen .play-area > h1 {
+.game-screen .start-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.game-screen .play-area h1 {
   font-size: 3.5em;
 }
 
-.game-screen .play-area > button {
+.game-screen .play-area button {
   color: var(--primary);
   background-color: var(--secondary);
   border: .5px solid var(--secondary);

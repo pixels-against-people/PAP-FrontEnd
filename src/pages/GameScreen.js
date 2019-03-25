@@ -167,9 +167,10 @@ class GameScreen extends Component {
         case 'Idle':
           return (
             <div className="play-area">
-              <h1>Waiting For Players</h1>
-              {(players.length >= 3 && owner) && <button onClick={() => this.startGame()}>Start Game</button>}
-
+              <div className="start-area">
+                <h1>Waiting For Players</h1>
+                {(players.length >= 3 && owner) && <button onClick={() => this.startGame()}>Start Game</button>}
+              </div>
             </div>
           )
         case 'Playing':
