@@ -1,16 +1,37 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import './Home.css'
+import openSocket from 'socket.io-client'
 
+
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
       decks: [],
+      lobbyName: "",
+      lobbyId: null,
     }
+  }
+
+  componentWillMount() {
+    socket.on("Lobby Found", (lobbyId) => {
+      this.setState({ lobbyId })
+    })
+
+    socket.on('Lobby Not Found', () => {
+      console.log('lobby not found')
+    })
+  }
+
+  findLobby(e, name) {
+    e.preventDefault()
+    socket.emit("Find Lobby", name)
   }
 
   componentDidMount() {
@@ -25,10 +46,13 @@ class Home extends Component {
   render() {
     return (
       <div className="homeContainer">
+        {this.state.lobbyId != null && <Redirect to={'/play-game/' + this.state.lobbyId} />}
         <div className="buttonContainer">
           <Link className="Link" to="/game">Create Game</Link>
-          {/* <input type="text" value={this.state.lobbyId} onChange={e => this.setState({ lobbyId: e.target.value })} /> */}
-          <Link className="Link" to={"/play-game/"+this.state.lobbyId}>Join Game</Link>
+          <form>
+            <button className="Link" onClick={(e) => this.findLobby(e, this.state.lobbyName)} >Join Game</button>  {/*to={"/play-game/"+this.state.lobbyId}*/}
+            <input placeholder="Lobby Name" type="text" value={this.state.lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
+          </form>
         </div>
       </div>
     )

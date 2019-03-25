@@ -11,19 +11,38 @@
 .homeContainer > .buttonContainer {
   position: absolute;
   top: 70%;
-  left: 37%;
-  width: 25vw;
+  left: calc(50% - 25vw);
+  width: 50vw;
   height: 5vh;
   margin: auto;
   display: flex;
   justify-content: space-around;
+  align-items: center;
+}
+
+.homeContainer > .buttonContainer > form{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.homeContainer > .buttonContainer > form > input {
+  padding: 10px;
+  margin: 10px;
+  min-width: 180px;
+  max-width: calc(15vw - 20px);
+  width: calc(40% - 20px);
+
 }
 
 .homeContainer .Link {
   text-align: center;
   text-decoration: none;
   min-height: 30px;
-  min-width: 60px;
+  max-height: 50px;
+  min-width: 200px;
+  max-width: 15vw;
   padding: 10px;
   border-radius: 10px;
   font-size: 24px;
