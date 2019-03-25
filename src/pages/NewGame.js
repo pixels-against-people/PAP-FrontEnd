@@ -24,7 +24,7 @@ class NewGame extends Component {
       user: '',
       AIName: '',
       AI: [],
-      players: [decode(localStorage.getItem('cahToken'))],
+      players: [],
       redirect: false,
     }
   }
@@ -41,8 +41,11 @@ class NewGame extends Component {
   }
 
   checkToken() {
-    if(decode(localStorage.getItem('cahToken'))) {
+    console.log(localStorage.getItem('cahToken'))
+    if(!(localStorage.getItem('cahToken'))) {
       this.setState({ redirect: true })
+    } else {
+      this.setState({ players: [decode(localStorage.getItem('cahToken'))] })
     }
   }
 
