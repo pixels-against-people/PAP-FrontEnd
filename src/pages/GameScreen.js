@@ -31,7 +31,7 @@ class GameScreen extends Component {
       players: [],
       selectedWhite: null,
       playedCards: [],
-      user: decode(localStorage.getItem('cahToken')),
+      user: null,
       messages: [],
       messageInput: '',
       gameState: '',
@@ -45,19 +45,23 @@ class GameScreen extends Component {
   }
 
   componentWillMount() {
+    // console.log("fuck")
     this.handlePlayers()
     this.handleMessage()
     this.handleWinCard()
   }
 
   componentDidMount() {
-    this.submitUser(this.state.user)
+    if (localStorage.getItem('cahToken')) {
+      this.setState({user: decode(localStorage.getItem('cahToken'))})
+      this.submitUser(decode(localStorage.getItem('cahToken')))
+    }
   }
 
   handleWinCard() {
     socket.on('Winning Card', (userId) => {
       console.log("somone won")
-      this.setState({winningCard: userId})
+      this.setState({ winningCard: userId })
     })
   }
 
@@ -86,7 +90,7 @@ class GameScreen extends Component {
           }
         }
       }
-      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards, czarId, winningCard: null})
+      this.setState({ players, whiteCards, gameState, owner, blackCard, czar, clientActive, playedCards, czarId, winningCard: null })
     })
   }
 
@@ -110,9 +114,9 @@ class GameScreen extends Component {
         socket.emit('Submit Card', lobby, user._id, card)
         this.setState({ whiteCards, playedCards, clientActive: false })
       }
-      else if (czar && gameState === "Selecting" ){
+      else if (czar && gameState === "Selecting") {
         socket.emit('Select Winner', lobby, card)
-        this.setState({czar: false, clientActive: false})
+        this.setState({ czar: false, clientActive: false })
       }
     }
   }
@@ -174,7 +178,7 @@ class GameScreen extends Component {
               <BlackCard card={blackCard} />
               {playedCards.map((card) => {
                 return (
-                  <LargeWhiteCard key={card.card + card.userId} card={card} gameState={gameState}/>
+                  <LargeWhiteCard key={card.card + card.userId} card={card} gameState={gameState} />
                 )
               })}
             </div>
@@ -205,7 +209,7 @@ class GameScreen extends Component {
           <h1>Players</h1>
           <ul>
             {/* eslint-disable-next-line react/destructuring-assignment */}
-            <Players players={players} czarId={czarId}/>
+            <Players players={players} czarId={czarId} />
 
           </ul>
         </div>
@@ -215,7 +219,7 @@ class GameScreen extends Component {
           <Chat messages={messages} />
           <form>
             <input type="text" placeholder="Say Something" value={messageInput} onChange={e => this.setState({ messageInput: e.target.value })} />
-            <button type="submit"  onClick={e => this.submitMessage(e, messageInput)}>Say Something</button>
+            <button type="submit" onClick={e => this.submitMessage(e, messageInput)}>Say Something</button>
           </form>
         </div>
         <div className="white-cards">
@@ -236,8 +240,8 @@ class GameScreen extends Component {
             </ul>
             :
             <div className="inactive">
-             {gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : (gameState==="Idle"? <h1>Waiting for the game to start</h1> : (winningCard? <div><h1>{winningCard.name} Won the Round</h1> <button onClick={() => this.nextHand()}>next hand</button></div>: <h1>Card czar is picking a winner</h1>))} 
-             </div>
+              {gameState === 'Playing' ? (czar ? <h1>You are the Card Czar</h1> : <h1>You already played a card</h1>) : (gameState === "Idle" ? <h1>Waiting for the game to start</h1> : (winningCard ? <div><h1>{winningCard.name} Won the Round</h1> <button onClick={() => this.nextHand()}>next hand</button></div> : <h1>Card czar is picking a winner</h1>))}
+            </div>
 
           }
         </div>
