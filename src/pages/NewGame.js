@@ -6,12 +6,12 @@ import decode from 'jwt-decode'
 import openSocket from 'socket.io-client'
 import { Redirect } from 'react-router-dom'
 import './NewGame.css'
+import '../components/Players.css'
+import Players from '../components/Players'
 import SetSelect from '../components/SetSelect'
 
 const socket = openSocket('http://localhost:4000')
 // const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
-
-// import GameScreen from './GameScreen'
 
 class NewGame extends Component {
   constructor(props) {
@@ -24,6 +24,7 @@ class NewGame extends Component {
       user: '',
       AIName: '',
       AI: [],
+      players: [decode(localStorage.getItem('cahToken'))],
     }
   }
 
@@ -45,18 +46,27 @@ class NewGame extends Component {
   }
 
   handleAI() {
+    // adds the AI user to 
     socket.on("Add AI", (user) => {
       let AI = this.state.AI
-      AI.push(user)
-      this.setState({ AI })
+      let players = this.state.players
+        AI.push(user)
+        players.push(user)
+        this.setState({ AI, players })
     })
   }
 
   createAI(e, name) {
+    // will create an AI user with the name provided
     e.preventDefault()
-    if(name.length >= 1){
-      socket.emit('Create AI', name)
-      this.setState({ AIName: '' })
+    let players = this.state.players
+    if(players.findIndex(x => x.name === name) === -1) {
+      if(name.length >= 1){
+        socket.emit('Create AI', name)
+        this.setState({ AIName: '' })
+    } else {
+        // going to add some sort of warning not to add bots with same name
+    }
     }
   }
 
@@ -97,31 +107,32 @@ class NewGame extends Component {
     if (localStorage.getItem('cahToken')) {
       redirect = false
     }
+    const { lobbyId, players, cardSets, lobbyName, AIName } = this.state
     return (
       <div className="newGameContainer">
-        {redirect && <Redirect to="/login" />}}
-        {this.state.lobbyId && <Redirect to={'/play-game/' + this.state.lobbyId} />}
-        <div className="playersContainer">
-          <h1>Current Players</h1>
-          <div className="player">
-            <img align="middle" src="http://images.panda.org/assets/images/pages/welcome/orangutan_1600x1000_279157.jpg" alt="placeholder" />
-            <span>Jack</span>
-          </div>
+        {redirect && <Redirect to="/login" />}
+        {lobbyId && <Redirect to={'/play-game/' + lobbyId} />}
+        <div className="players">
+          <h1>Players</h1>
+          <ul>
+            {/* eslint-disable-next-line react/destructuring-assignment */}
+            <Players players={players} czarId={null}/>
+
+          </ul>
         </div>
         <div className="setContainer">
           <h1>Select The Decks You'd Like to Use</h1>
-          {this.renderSets(this.state.cardSets)}
+          {this.renderSets(cardSets)}
         </div>
         <div className="startButton">
+        {/* <form className="startForm">
+            <input type="text" placeholder="Bot Name" value={AIName} onChange={e => this.setState({ AIName: e.target.value })} />
+            <button type="submit" onClick={e => this.createAI(e, AIName)}>Add Bot</button>
+          </form> */}
           <form className="startForm">
-            <input type="text" placeholder="Lobby Name" value={this.state.lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
-            <button type="submit" onClick={e => this.createLobby(e, this.state.lobbyName)}>Start</button>
+            <input type="text" placeholder="Lobby Name" value={lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
+            <button type="submit" onClick={e => this.createLobby(e, lobbyName)}>Start</button>
           </form>
-          <form className="startForm">
-            <input type="text" placeholder="Bot Name" value={this.state.AIName} onChange={e => this.setState({ AIName: e.target.value })} />
-            <button type="submit" onClick={e => this.createAI(e, this.state.AIName)}>Add Bot</button>
-          </form>
-          
         </div>
       </div>
     )
