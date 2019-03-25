@@ -6,8 +6,8 @@ import './Home.css'
 import openSocket from 'socket.io-client'
 
 
-const socket = openSocket('http://localhost:4000')
-// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+// const socket = openSocket('http://localhost:4000')
+const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class Home extends Component {
   constructor(props) {
