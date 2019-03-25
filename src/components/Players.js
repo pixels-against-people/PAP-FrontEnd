@@ -13,7 +13,7 @@ const Players = (props) => {
     return (
       <li className="player" key={player.id}>
         <h3>{decode(localStorage.getItem('cahToken'))._id===player.id && 'Me: '}{player.name} {czarId===player.id && "(Card Czar)"}</h3>
-        <p>points: {player.points}</p>
+        <p>points: {player.points ? player.points : 0}</p>
       </li>
     )
   })
