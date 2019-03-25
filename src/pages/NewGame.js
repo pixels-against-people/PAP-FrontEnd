@@ -25,10 +25,12 @@ class NewGame extends Component {
       AIName: '',
       AI: [],
       players: [decode(localStorage.getItem('cahToken'))],
+      redirect: false,
     }
   }
 
   componentWillMount() {
+    this.checkToken()
     fetch('https://cards-against-humanity-api.herokuapp.com/sets')
       .then(response => response.json())
       .then((sets) => {
@@ -36,6 +38,12 @@ class NewGame extends Component {
       }).catch(err => console.log(err.message))
     this.handleAI()
     this.handleLobby()
+  }
+
+  checkToken() {
+    if(decode(localStorage.getItem('cahToken'))) {
+      this.setState({ redirect: true })
+    }
   }
 
   handleLobby() {
@@ -103,11 +111,7 @@ class NewGame extends Component {
   }
 
   render() {
-    let redirect = true
-    if (localStorage.getItem('cahToken')) {
-      redirect = false
-    }
-    const { lobbyId, players, cardSets, lobbyName, AIName } = this.state
+    const { lobbyId, players, cardSets, lobbyName, AIName, redirect } = this.state
     return (
       <div className="newGameContainer">
         {redirect && <Redirect to="/login" />}
