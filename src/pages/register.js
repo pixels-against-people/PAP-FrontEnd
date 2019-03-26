@@ -19,6 +19,7 @@ class Register extends Component {
       passwordConf: '',
       redirect: false,
       registerFail: false,
+      registerMsg: '',
     }
   }
 
@@ -30,7 +31,7 @@ class Register extends Component {
         // will activate the redirect component, sending user to the next page when the page renders
         this.setState({ redirect: true })
       } else {
-        this.setState({ registerFail: true })
+        this.setState({ registerFail: true, registerMsg: 'This email is already in use' })
       }
     })
   }
@@ -40,7 +41,23 @@ class Register extends Component {
     // checking login credentials
     const { email, name, password, passwordConf } = this.state
     const body = { email, name, password, passwordConf }
-    socket.emit('Register', body)
+    if(email.length >= 1) {
+      if(name.length >= 1) {
+        if(password.length >= 1) {
+          if(passwordConf.length >= 1) {
+            socket.emit('Register', body)
+          } else {
+            this.setState({ registerFail: true, registerMsg: 'Password Confirmation is required' })
+          }
+        } else {
+          this.setState({ registerFail: true, registerMsg: 'Password is required' })
+        }
+      } else {
+        this.setState({ registerFail: true, registerMsg: 'Nickname is required' })
+      }
+    } else {
+      this.setState({ registerFail: true, registerMsg: 'Email is required' })
+    }
   }
 
   render() {
@@ -51,7 +68,7 @@ class Register extends Component {
         <div className="signup">
           <h2>Join Today</h2>
           <form onSubmit={e => this.handleClick(e)}>
-          {this.state.registerFail && <div className="loginFail"><span>This Email is Already in Use</span></div>}
+          {this.state.registerFail && <div className="loginFail"><span>{this.state.registerMsg}</span></div>}
             <input type="text" name="name" placeholder="Nickname" onChange={e => this.setState({ name: e.target.value })} value={this.state.name} />
             <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
             <input type="password" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />

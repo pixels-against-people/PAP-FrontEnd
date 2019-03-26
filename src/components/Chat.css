@@ -4,6 +4,12 @@
 
 .chat-area ul {
   list-style: none;
+  height: calc(60vh - 75px);
+  overflow-y: auto;
+}
+
+.chat-area h1 {
+  text-align: center;
 }
 
 .chat-area {

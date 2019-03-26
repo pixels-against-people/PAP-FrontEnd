@@ -217,6 +217,7 @@ class GameScreen extends Component {
         {playArea()}
 
         <div className="chat-area">
+        <h1>Chat</h1>
           <Chat messages={messages} />
           <form>
             <input type="text" placeholder="Say Something" value={messageInput} onChange={e => this.setState({ messageInput: e.target.value })} />
