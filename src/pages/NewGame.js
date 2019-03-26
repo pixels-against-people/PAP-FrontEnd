@@ -58,6 +58,7 @@ class NewGame extends Component {
     })
 
     socket.on("Lobby Creation Fail", message => {
+      console.log("wtf")
       this.setState({ lobbyFail: true, message})
     })
   }
