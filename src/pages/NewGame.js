@@ -22,10 +22,12 @@ class NewGame extends Component {
       lobbyId: '',
       lobbyName: '',
       user: '',
-      AIName: '',
-      AI: [],
+      // AIName: '',
+      // AI: [],
       players: [],
       redirect: false,
+      message: '',
+      lobbyFail: false,
     }
   }
 
@@ -36,7 +38,7 @@ class NewGame extends Component {
       .then((sets) => {
         this.setState({ cardSets: sets })
       }).catch(err => console.log(err.message))
-    this.handleAI()
+    // this.handleAI()
     this.handleLobby()
   }
 
@@ -54,32 +56,36 @@ class NewGame extends Component {
       console.log(lobbyId)
       this.setState({ lobbyId })
     })
-  }
 
-  handleAI() {
-    // adds the AI user to 
-    socket.on("Add AI", (user) => {
-      let AI = this.state.AI
-      let players = this.state.players
-        AI.push(user)
-        players.push(user)
-        this.setState({ AI, players })
+    socket.on("Lobby Creation Fail", message => {
+      this.setState({ lobbyFail: true, message})
     })
   }
 
-  createAI(e, name) {
-    // will create an AI user with the name provided
-    e.preventDefault()
-    let players = this.state.players
-    if(players.findIndex(x => x.name === name) === -1) {
-      if(name.length >= 1){
-        socket.emit('Create AI', name)
-        this.setState({ AIName: '' })
-    } else {
-        // going to add some sort of warning not to add bots with same name
-    }
-    }
-  }
+  // handleAI() {
+  //   // adds the AI user to 
+  //   socket.on("Add AI", (user) => {
+  //     let AI = this.state.AI
+  //     let players = this.state.players
+  //       AI.push(user)
+  //       players.push(user)
+  //       this.setState({ AI, players })
+  //   })
+  // }
+
+  // createAI(e, name) {
+  //   // will create an AI user with the name provided
+  //   e.preventDefault()
+  //   let players = this.state.players
+  //   if(players.findIndex(x => x.name === name) === -1) {
+  //     if(name.length >= 1){
+  //       socket.emit('Create AI', name)
+  //       this.setState({ AIName: '' })
+  //   } else {
+  //       // going to add some sort of warning not to add bots with same name
+  //   }
+  //   }
+  // }
 
   highlightSet(setName) {
     // adds selected set to state if not already included, removes if it is already included
@@ -116,7 +122,7 @@ class NewGame extends Component {
   }
 
   render() {
-    const { lobbyId, players, cardSets, lobbyName, AIName, redirect } = this.state
+    const { lobbyId, players, cardSets, lobbyName, redirect, lobbyFail, message } = this.state
     return (
       <div className="newGameContainer">
         {redirect && <Redirect to="/login" />}
@@ -140,6 +146,7 @@ class NewGame extends Component {
           </form> */}
           <form className="startForm">
             <input type="text" placeholder="Lobby Name" value={lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
+            {lobbyFail ? <div className="lobbyFail"><span>{message}</span></div>: null}
             <button type="submit" onClick={e => this.createLobby(e, lobbyName)}>Start</button>
           </form>
         </div>
