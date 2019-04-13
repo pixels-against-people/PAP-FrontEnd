@@ -15,8 +15,8 @@ import Chat from '../components/Chat'
 import Players from '../components/Players'
 import decode from 'jwt-decode'
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 
@@ -45,10 +45,10 @@ class GameScreen extends Component {
   }
 
   componentWillMount() {
-    // console.log("fuck")
     this.handlePlayers()
     this.handleMessage()
     this.handleWinCard()
+    this.handleAICzar()
   }
 
   componentDidMount() {
@@ -58,9 +58,15 @@ class GameScreen extends Component {
     }
   }
 
+  handleAICzar() {
+    socket.on('AI Czar', (lobbyId, card) => {
+      console.log("selecting winner")
+      socket.emit('Select Winner', lobbyId, card)
+    })
+  }
+
   handleWinCard() {
     socket.on('Winning Card', (userId) => {
-      console.log("somone won")
       this.setState({ winningCard: userId })
     })
   }

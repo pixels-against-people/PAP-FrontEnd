@@ -10,8 +10,8 @@ import '../components/Players.css'
 import Players from '../components/Players'
 import SetSelect from '../components/SetSelect'
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class NewGame extends Component {
   constructor(props) {
@@ -22,8 +22,8 @@ class NewGame extends Component {
       lobbyId: '',
       lobbyName: '',
       user: '',
-      // AIName: '',
-      // AI: [],
+      AIName: '',
+      AI: [],
       players: [],
       redirect: false,
       message: '',
@@ -38,7 +38,7 @@ class NewGame extends Component {
       .then((sets) => {
         this.setState({ cardSets: sets })
       }).catch(err => console.log(err.message))
-    // this.handleAI()
+    this.handleAI()
     this.handleLobby()
   }
 
@@ -53,7 +53,6 @@ class NewGame extends Component {
 
   handleLobby() {
     socket.on("Lobby Created", (lobbyId) => {
-      console.log(lobbyId)
       this.setState({ lobbyId })
     })
 
@@ -62,30 +61,30 @@ class NewGame extends Component {
     })
   }
 
-  // handleAI() {
-  //   // adds the AI user to 
-  //   socket.on("Add AI", (user) => {
-  //     let AI = this.state.AI
-  //     let players = this.state.players
-  //       AI.push(user)
-  //       players.push(user)
-  //       this.setState({ AI, players })
-  //   })
-  // }
+  handleAI() {
+    // adds the AI user to 
+    socket.on("Add AI", (user) => {
+      let AI = this.state.AI
+      let players = this.state.players
+        AI.push(user)
+        players.push(user)
+        this.setState({ AI, players })
+    })
+  }
 
-  // createAI(e, name) {
-  //   // will create an AI user with the name provided
-  //   e.preventDefault()
-  //   let players = this.state.players
-  //   if(players.findIndex(x => x.name === name) === -1) {
-  //     if(name.length >= 1){
-  //       socket.emit('Create AI', name)
-  //       this.setState({ AIName: '' })
-  //   } else {
-  //       // going to add some sort of warning not to add bots with same name
-  //   }
-  //   }
-  // }
+  createAI(e, name) {
+    // will create an AI user with the name provided
+    e.preventDefault()
+    let players = this.state.players
+    if(players.findIndex(x => x.name === name) === -1) {
+      if(name.length >= 1){
+        socket.emit('Create AI', name)
+        this.setState({ AIName: '' })
+    } else {
+        // going to add some sort of warning not to add bots with same name
+    }
+    }
+  }
 
   highlightSet(setName) {
     // adds selected set to state if not already included, removes if it is already included
@@ -122,7 +121,7 @@ class NewGame extends Component {
   }
 
   render() {
-    const { lobbyId, players, cardSets, lobbyName, redirect, lobbyFail, message } = this.state
+    const { lobbyId, players, cardSets, lobbyName, redirect, lobbyFail, AIName, message } = this.state
     return (
       <div className="newGameContainer">
         {redirect && <Redirect to="/login" />}
@@ -140,10 +139,10 @@ class NewGame extends Component {
           {this.renderSets(cardSets)}
         </div>
         <div className="startButton">
-        {/* <form className="startForm">
+        <form className="startForm">
             <input type="text" placeholder="Bot Name" value={AIName} onChange={e => this.setState({ AIName: e.target.value })} />
             <button type="submit" onClick={e => this.createAI(e, AIName)}>Add Bot</button>
-          </form> */}
+          </form>
           <form className="startForm">
             <input type="text" placeholder="Lobby Name" value={lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
             {lobbyFail ? <div className="lobbyFail"><span>{message}</span></div>: null}
