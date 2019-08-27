@@ -1,6 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable semi */
 import React, { Component } from 'react'
 import './login.css'
 import { Link, Redirect } from 'react-router-dom'
