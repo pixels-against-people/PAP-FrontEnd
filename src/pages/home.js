@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
-import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
-import './Home.css'
-import openSocket from 'socket.io-client'
 
+//need to redo home background and button layout
+import React, { Component } from "react"
+import { Link, Redirect } from "react-router-dom"
+import "./Home.css"
+import openSocket from "socket.io-client"
 
-const socket = openSocket('http://localhost:4000')
+const socket = openSocket("http://localhost:4000")
 // const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 class Home extends Component {
@@ -15,17 +16,17 @@ class Home extends Component {
     this.state = {
       decks: [],
       lobbyName: "",
-      lobbyId: null,
+      lobbyId: null
     }
   }
 
   componentWillMount() {
-    socket.on("Lobby Found", (lobbyId) => {
+    socket.on("Lobby Found", lobbyId => {
       this.setState({ lobbyId })
     })
 
-    socket.on('Lobby Not Found', () => {
-      console.log('lobby not found')
+    socket.on("Lobby Not Found", () => {
+      console.log("lobby not found")
     })
   }
 
@@ -36,22 +37,38 @@ class Home extends Component {
 
   componentDidMount() {
     // generates setlist from the CAH-API
-    fetch('https://cards-against-humanity-api.herokuapp.com/sets')
+    fetch("https://cards-against-humanity-api.herokuapp.com/sets")
       .then(response => response.json())
-      .then((sets) => {
+      .then(sets => {
         this.setState({ decks: sets })
-      }).catch(err => console.log(err.message))
+      })
+      .catch(err => console.log(err.message))
   }
 
   render() {
     return (
       <div className="homeContainer">
-        {this.state.lobbyId != null && <Redirect to={'/play-game/' + this.state.lobbyId} />}
+        {this.state.lobbyId != null && (
+          <Redirect to={"/play-game/" + this.state.lobbyId} />
+        )}
         <div className="buttonContainer">
-          <Link className="Link" to="/game">Create Game</Link>
+          <Link className="Link" to="/game">
+            Create Game
+          </Link>
           <form>
-            <button className="Link" onClick={(e) => this.findLobby(e, this.state.lobbyName)} >Join Game</button>  {/*to={"/play-game/"+this.state.lobbyId}*/}
-            <input placeholder="Lobby Name" type="text" value={this.state.lobbyName} onChange={e => this.setState({ lobbyName: e.target.value })} />
+            <button
+              className="Link"
+              onClick={e => this.findLobby(e, this.state.lobbyName)}
+            >
+              Join Game
+            </button>{" "}
+            {/*to={"/play-game/"+this.state.lobbyId}*/}
+            <input
+              placeholder="Lobby Name"
+              type="text"
+              value={this.state.lobbyName}
+              onChange={e => this.setState({ lobbyName: e.target.value })}
+            />
           </form>
         </div>
       </div>
