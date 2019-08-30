@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable semi */
 
-//need to redo home background and button layout
+//need to redo home background and button layout - get rid of image
 import React, { Component } from "react"
 import { Link, Redirect } from "react-router-dom"
 import "./Home.css"
