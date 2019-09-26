@@ -7,7 +7,7 @@ import { Link, Redirect } from 'react-router-dom'
 import openSocket from 'socket.io-client'
 
 // const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
 
 class Register extends Component {
   constructor(props) {

@@ -12,7 +12,7 @@ class deckDisplay extends Component {
   }
 
   getCards(deck) {
-    fetch(`https://cards-against-humanity-api.herokuapp.com/sets/${deck}`)
+    fetch(`https://master.d3nfp0yljqbgje.amplifyapp.com/sets/${deck}`)
       .then((res) => {
         this.setState({ cards: res })
       })

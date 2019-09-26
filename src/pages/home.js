@@ -7,7 +7,8 @@ import openSocket from 'socket.io-client'
 
 
 // const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
+
 
 class Home extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class Home extends Component {
 
   componentDidMount() {
     // generates setlist from the CAH-API
-    fetch('https://cards-against-humanity-api.herokuapp.com/sets')
+    fetch('https://master.d3nfp0yljqbgje.amplifyapp.com/sets')
       .then(response => response.json())
       .then((sets) => {
         this.setState({ decks: sets })
