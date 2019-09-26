@@ -1,39 +1,38 @@
-import React, { Component } from 'react'
-import './login.css'
-import { Link, Redirect } from 'react-router-dom'
-import openSocket from 'socket.io-client'
+import React, { Component } from "react"
+import "./login.css"
+import { Link, Redirect } from "react-router-dom"
+import openSocket from "socket.io-client"
 
-const socket = openSocket('http://localhost:4000')
-// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+// const socket = openSocket("http://localhost:4000")
+const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
 
 
 class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       redirect: false,
       loginFail: false,
-      userId: '',
+      userId: ""
     }
   }
 
   componentWillMount() {
-    socket.on('authRes', res => {
-        if (res.result === 'Success') {
-          localStorage.setItem('cahToken', res.token)
-          // will activate the redirect component, sending user to the next page when the page renders
-          this.setState({
-            redirect: true,
-          })
-        } else {
-          // renders a box stating the username or password is incorrect
-          this.setState({ loginFail: true })
-        }
+    socket.on("authRes", res => {
+      if (res.result === "Success") {
+        localStorage.setItem("cahToken", res.token)
+        // will activate the redirect component, sending user to the next page when the page renders
+        this.setState({
+          redirect: true
+        })
+      } else {
+        // renders a box stating the username or password is incorrect
+        this.setState({ loginFail: true })
+      }
     })
   }
-    
 
   handleClick(e) {
     e.preventDefault()
@@ -52,11 +51,29 @@ class Login extends Component {
         <div className="signup">
           {redirect && <Redirect to="/" />}
           <h1>Welcome Back</h1>
-          {this.state.loginFail && <div className="loginFail"><span>Username or Password Incorrect</span></div>}
+          {this.state.loginFail && (
+            <div className="loginFail">
+              <span>Username or Password Incorrect</span>
+            </div>
+          )}
           <form onSubmit={e => this.handleClick(e)}>
-            <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
-            <input type="password" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
-            <button type="submit" name="register">Login</button>
+            <input
+              type="text"
+              name="email"
+              placeholder="Email"
+              onChange={e => this.setState({ email: e.target.value })}
+              value={this.state.email}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={e => this.setState({ password: e.target.value })}
+              value={this.state.password}
+            />
+            <button type="submit" name="register">
+              Login
+            </button>
           </form>
           <span>
             New around here?

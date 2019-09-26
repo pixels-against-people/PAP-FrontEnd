@@ -10,8 +10,9 @@ import '../components/Players.css'
 import Players from '../components/Players'
 import SetSelect from '../components/SetSelect'
 
-const socket = openSocket('http://localhost:4000')
-// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+// const socket = openSocket('http://localhost:4000')
+const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
+
 
 class NewGame extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class NewGame extends Component {
 
   componentWillMount() {
     this.checkToken()
-    fetch('https://cards-against-humanity-api.herokuapp.com/sets')
+    fetch('https://master.d3nfp0yljqbgje.amplifyapp.com/sets')
       .then(response => response.json())
       .then((sets) => {
         this.setState({ cardSets: sets })
