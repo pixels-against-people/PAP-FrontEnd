@@ -1,29 +1,25 @@
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable semi */
-import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom'
-import './app.css'
-import Home from './pages/home'
-import NewGame from './pages/NewGame'
-import GameScreen from './pages/GameScreen'
-import Navbar from './components/Navbar'
-import Login from './pages/login'
-import Register from './pages/register'
-
+import React, { Component } from "react"
+import { Route, Switch } from "react-router-dom"
+import "./app.css"
+import Home from "./pages/home"
+import NewGame from "./pages/NewGame"
+import GameScreen from "./pages/GameScreen"
+import Navbar from "./components/Navbar"
+import Login from "./pages/login"
+import Register from "./pages/register"
 
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       loading: true,
-      auth: true,    
+      auth: true
     }
   }
 
   componentDidMount() {
-      this.setState({ loading: false })
+    this.setState({ loading: false })
   }
-
 
   render() {
     const { loading } = this.state
@@ -34,7 +30,7 @@ class App extends Component {
 
     return (
       <div className="mainContainer">
-      <Navbar auth={this.state.auth} />
+        <Navbar auth={this.state.auth} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/game" component={NewGame} />
@@ -47,4 +43,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App
