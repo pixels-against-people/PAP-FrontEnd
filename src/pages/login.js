@@ -4,8 +4,7 @@ import { Link, Redirect } from "react-router-dom"
 import openSocket from "socket.io-client"
 
 // const socket = openSocket("http://localhost:4000")
-const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
-
+const socket = openSocket("https://master.d34fmqcbe5o49s.amplifyapp.com/")
 
 class Login extends Component {
   constructor(props) {
