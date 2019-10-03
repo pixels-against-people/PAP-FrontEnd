@@ -10,7 +10,6 @@ import "../components/Players.css"
 import Players from "../components/Players"
 import SetSelect from "../components/SetSelect"
 
-// const socket = openSocket('http://localhost:4000')
 const socket = openSocket("https://master.d34fmqcbe5o49s.amplifyapp.com/")
 
 class NewGame extends Component {
