@@ -6,9 +6,10 @@ import React, { Component } from "react"
 import { Link, Redirect } from "react-router-dom"
 import "./Home.css"
 import openSocket from "socket.io-client"
+import decode from "jwt-decode"
 
-// const socket = openSocket("http://localhost:4000")
-const socket = openSocket('https://master.d34fmqcbe5o49s.amplifyapp.com/')
+const socket = openSocket("http://localhost:4000")
+// const socket = openSocket('https://master.d34fmqcbe5o49s.amplifyapp.com/')
 
 
 class Home extends Component {
@@ -17,13 +18,14 @@ class Home extends Component {
     this.state = {
       decks: [],
       lobbyName: "",
-      lobbyId: null
+      lobbyId: null,
+      user: null
     }
   }
 
   componentWillMount() {
-    socket.on("Lobby Found", lobbyId => {
-      this.setState({ lobbyId })
+    socket.on("Joined Lobby", (lobbyId, user) => {
+      this.setState({ lobbyId, user })
     })
 
     socket.on("Lobby Not Found", () => {
@@ -33,7 +35,7 @@ class Home extends Component {
 
   findLobby(e, name) {
     e.preventDefault()
-    socket.emit("Find Lobby", name)
+    socket.emit("Join Lobby", decode(localStorage.getItem('cahToken')).id, name)
   }
 
   componentDidMount() {
@@ -49,9 +51,7 @@ class Home extends Component {
   render() {
     return (
       <div className="homeContainer">
-        {this.state.lobbyId != null && (
-          <Redirect to={"/play-game/" + this.state.lobbyId} />
-        )}
+        {this.state.lobbyId && <Redirect to={{ pathname: "/play-game/" + this.state.lobbyId, user: this.state.user }} />}
         <div className="buttonContainer">
           <Link className="Link" to="/game">
             Create Game
@@ -62,8 +62,7 @@ class Home extends Component {
               onClick={e => this.findLobby(e, this.state.lobbyName)}
             >
               Join Game
-            </button>{" "}
-            {/*to={"/play-game/"+this.state.lobbyId}*/}
+            </button>
             <input
               placeholder="Lobby Name"
               type="text"

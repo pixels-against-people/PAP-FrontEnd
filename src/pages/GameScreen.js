@@ -15,33 +15,22 @@ import Chat from "../components/Chat"
 import Players from "../components/Players"
 import decode from "jwt-decode"
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket("https://master.d34fmqcbe5o49s.amplifyapp.com/")
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket("https://master.d34fmqcbe5o49s.amplifyapp.com/")
 
 class GameScreen extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
-      blackCard: { text: "Why can't I sleep at night?", pick: 2 },
-      whiteCards: [
-        "Why can't I sleep at night?",
-        "Man meat.",
-        "Autocannibalism.",
-        "Praying the gay away.",
-        "Same-sex ice dancing.",
-        "Ethnic cleansing.",
-        "Battlefield amputations.",
-        "An uppercut.",
-        "Shiny objects."
-      ],
+      blackCard: {},
+      hand: [],
       players: [],
       selectedWhite: null,
       playedCards: [],
       user: null,
       messages: [],
       messageInput: "",
-      gameState: "",
+      gameState: "Idle",
       clientActive: true, //Playing or not
       owner: false,
       lobby: this.props.match.params.lobbyId,
@@ -52,86 +41,144 @@ class GameScreen extends Component {
   }
 
   componentWillMount() {
-    this.handlePlayers()
-    this.handleMessage()
+    // this.handlePlayers()
+    // this.handleMessage()
+    this.handleCard()
+    this.handleGameStart()
     this.handleWinCard()
-    this.handleAICzar()
   }
 
   componentDidMount() {
+    this.getPlayers()
     if (localStorage.getItem("cahToken")) {
       this.setState({ user: decode(localStorage.getItem("cahToken")) })
-      this.submitUser(decode(localStorage.getItem("cahToken")))
     }
   }
 
-  handleAICzar() {
-    socket.on("AI Czar", (lobbyId, card) => {
-      console.log("selecting winner")
-      socket.emit("Select Winner", lobbyId, card)
+  // handleAICzar() {
+  //   socket.on("AI Czar", (lobbyId, card) => {
+  //     console.log("selecting winner")
+  //     socket.emit("Select Winner", lobbyId, card)
+  //   })
+  // }
+
+  nextHand() {
+    socket.on("Hand Started", lobby => {
+      let czar = false
+      let clientActive = true
+      const playedCards = lobby.currPlayed
+      if (this.state.user.id === lobby.czar) {
+        czar = true
+        clientActive = false
+      }
+      this.setState({ players: lobby.users, blackCard: lobby.currBlack, gameState: "Playing", czar, clientActive, playedCards, winningCard: null })
+    })
+    socket.emit("Start Hand", this.state.lobby, false)
+  }
+
+  handleCard() {
+    socket.on("Selection", lobby => {
+      let { hand, czar, clientActive } = this.state
+      if (czar) {
+        clientActive = true
+        hand = lobby.currPlayed.map(card => card.card)
+      }
+      this.setState({ playedCards: lobby.currPlayed, gameState: "Selecting", hand, clientActive })
+    })
+    socket.on("Update Cards", lobby => {
+      console.log(this.state.players)
+      this.setState({ playedCards: lobby.currPlayed })
+    })
+  }
+
+  getPlayers() {
+    socket.emit("Update Players", this.state.lobby)
+    socket.on("Players Updated", lobby => {
+      const players = lobby.users
+      if (this.state.user.id === lobby.owner) {
+        this.setState({ owner: true })
+      }
+      this.setState({ players })
+    })
+  }
+
+  handleGameStart() {
+    socket.on("Hand Started", lobby => {
+      let hand = null
+      let czar = false
+      let clientActive = true
+      lobby.users.forEach(user => {
+        if (user._id === this.state.user.id) {
+          hand = user.hand
+        }
+      })
+      if (this.state.user.id === lobby.czar) {
+        czar = true
+        clientActive = false
+      }
+      this.setState({ blackCard: lobby.currBlack, hand, gameState: "Playing", czar, clientActive })
     })
   }
 
   handleWinCard() {
-    socket.on("Winning Card", userId => {
-      this.setState({ winningCard: userId })
+    socket.on("Winning Card", winningCard => {
+      this.setState({ winningCard })
     })
   }
 
-  handlePlayers() {
-    socket.on("Update Players", lobby => {
-      const {
-        users: players,
-        gameState,
-        currBlack: blackCard,
-        czar: czarId,
-        playedWhite: playedCards
-      } = lobby
-      console.log(lobby)
-      const player = players.reduce((me, player) =>
-        player.id === this.state.user._id ? player : me
-      )
-      const owner = player.owner
-      let whiteCards = player.cards
-      let czar = false
-      if (czarId === player.id) {
-        czar = true
-      }
-      let clientActive = false
-      if (!player.played) {
-        if (gameState === "Playing") {
-          if (!czar) {
-            clientActive = true
-          }
-        } else if (gameState === "Selecting") {
-          if (czar) {
-            clientActive = true
-            whiteCards = lobby.playedWhite.map(card => card.card)
-          }
-        }
-      }
-      this.setState({
-        players,
-        whiteCards,
-        gameState,
-        owner,
-        blackCard,
-        czar,
-        clientActive,
-        playedCards,
-        czarId,
-        winningCard: null
-      })
-    })
-  }
+  // handlePlayers() {
+  //   socket.on("Update Players", lobby => {
+  //     const {
+  //       users: players,
+  //       gameState,
+  //       currBlack: blackCard,
+  //       czar: czarId,
+  //       playedWhite: playedCards
+  //     } = lobby
+  //     const player = players.reduce((me, player) =>
+  //       player.id === this.state.user._id ? player : me
+  //     )
+  //     const owner = player.owner
+  //     let whiteCards = player.cards
+  //     let czar = false
+  //     if (czarId === player.id) {
+  //       czar = true
+  //     }
+  //     let clientActive = false
+  //     if (!player.played) {
+  //       if (gameState === "Playing") {
+  //         if (!czar) {
+  //           clientActive = true
+  //         }
+  //       } else if (gameState === "Selecting") {
+  //         if (czar) {
+  //           clientActive = true
+  //           whiteCards = lobby.playedWhite.map(card => card.card)
+  //         }
+  //       }
+  //     }
+  //     this.setState({
+  //       players,
+  //       whiteCards,
+  //       gameState,
+  //       owner,
+  //       blackCard,
+  //       czar,
+  //       clientActive,
+  //       playedCards,
+  //       czarId,
+  //       winningCard: null
+  //     })
+  //   })
+  // }
 
-  handleMessage() {
-    socket.on("New Message", (text, username) => {
-      this.setState({
-        messages: this.state.messages.concat({ username, text })
-      })
-    })
-  }
+  // handleMessage() {
+  //   socket.on("New Message", (text, username) => {
+  //     this.setState({
+  //       messages: this.state.messages.concat({ username, text })
+  //     })
+  //   })
+  // }
 
   selectCard(card) {
     this.setState({ selectedWhite: card })
@@ -140,7 +187,7 @@ class GameScreen extends Component {
   submit(card) {
     // eslint-disable-next-line prefer-const
     let {
-      whiteCards,
+      hand,
       playedCards,
       clientActive,
       user,
@@ -150,19 +197,14 @@ class GameScreen extends Component {
     } = this.state
     if (clientActive) {
       if (!czar && gameState === "Playing") {
-        whiteCards.splice(whiteCards.indexOf(card), 1)
-        playedCards = playedCards.concat(card)
-        socket.emit("Submit Card", lobby, user._id, card)
-        this.setState({ whiteCards, playedCards, clientActive: false })
+        hand.splice(hand.indexOf(card), 1)
+        socket.emit("Play Card", lobby, user, card)
+        this.setState({ hand, playedCards, clientActive: false })
       } else if (czar && gameState === "Selecting") {
-        socket.emit("Select Winner", lobby, card)
+        socket.emit("Pick Card", lobby, card)
         this.setState({ czar: false, clientActive: false })
       }
     }
-  }
-
-  submitUser(user) {
-    socket.emit("Join Lobby", this.state.lobby, user)
   }
 
   submitMessage(e, message) {
@@ -172,11 +214,7 @@ class GameScreen extends Component {
   }
 
   startGame() {
-    socket.emit("Start Game", this.state.lobby)
-  }
-
-  nextHand() {
-    socket.emit("Update Lobby", this.state.lobby)
+    socket.emit("Start Hand", this.state.lobby, true)
   }
 
   render() {
@@ -188,7 +226,7 @@ class GameScreen extends Component {
       players,
       playedCards,
       blackCard,
-      whiteCards,
+      hand,
       selectedWhite,
       messageInput,
       messages,
@@ -207,9 +245,7 @@ class GameScreen extends Component {
             <div className="play-area">
               <div className="start-area">
                 <h1>Waiting For Players</h1>
-                {players.length >= 3 && owner && (
-                  <button onClick={() => this.startGame()}>Start Game</button>
-                )}
+                {players.length >= 1 && owner && (<button onClick={() => this.startGame()}>Start Game</button>)}
               </div>
             </div>
           )
@@ -220,7 +256,7 @@ class GameScreen extends Component {
               {playedCards.map(card => {
                 return (
                   <LargeWhiteCard
-                    key={card.card + card.userId}
+                    key={card.card + card.user}
                     card={card}
                     gameState={gameState}
                   />
@@ -283,7 +319,7 @@ class GameScreen extends Component {
         <div className="white-cards">
           {clientActive ? (
             <ul>
-              {whiteCards.map(card => {
+              {hand.map(card => {
                 return (
                   <li key={card}>
                     <WhiteCard
@@ -297,25 +333,25 @@ class GameScreen extends Component {
               })}
             </ul>
           ) : (
-            <div className="inactive">
-              {gameState === "Playing" ? (
-                czar ? (
-                  <h1>You are the Card Czar</h1>
+              <div className="inactive">
+                {gameState === "Playing" ? (
+                  czar ? (
+                    <h1>You are the Card Czar</h1>
+                  ) : (
+                      <h1>You already played a card</h1>
+                    )
+                ) : gameState === "Idle" ? (
+                  <h1>Waiting for the game to start</h1>
+                ) : winningCard ? (
+                  <div>
+                    <h1>{winningCard.name} Won the Round</h1>{" "}
+                    <button onClick={() => this.nextHand()}>next hand</button>
+                  </div>
                 ) : (
-                  <h1>You already played a card</h1>
-                )
-              ) : gameState === "Idle" ? (
-                <h1>Waiting for the game to start</h1>
-              ) : winningCard ? (
-                <div>
-                  <h1>{winningCard.name} Won the Round</h1>{" "}
-                  <button onClick={() => this.nextHand()}>next hand</button>
-                </div>
-              ) : (
-                <h1>Card czar is picking a winner</h1>
-              )}
-            </div>
-          )}
+                        <h1>Card czar is picking a winner</h1>
+                      )}
+              </div>
+            )}
         </div>
       </div>
     )

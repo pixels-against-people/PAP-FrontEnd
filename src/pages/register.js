@@ -6,8 +6,8 @@ import './login.css'
 import { Link, Redirect } from 'react-router-dom'
 import openSocket from 'socket.io-client'
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://master.d1adweuj5yrtvv.amplifyapp.com')
 
 class Register extends Component {
   constructor(props) {
@@ -41,10 +41,10 @@ class Register extends Component {
     // checking login credentials
     const { email, name, password, passwordConf } = this.state
     const body = { email, name, password, passwordConf }
-    if(email.length >= 1) {
-      if(name.length >= 1) {
-        if(password.length >= 1) {
-          if(passwordConf.length >= 1) {
+    if (email.length >= 1) {
+      if (name.length >= 1) {
+        if (password.length >= 1) {
+          if (passwordConf.length >= 1) {
             socket.emit('Register', body)
           } else {
             this.setState({ registerFail: true, registerMsg: 'Password Confirmation is required' })
@@ -64,11 +64,11 @@ class Register extends Component {
     return (
       <div className="authContainer">
         <h1>CAH</h1>
-        { this.state.redirect && <Redirect to="/" /> }
+        {this.state.redirect && <Redirect to="/" />}
         <div className="signup">
           <h2>Join Today</h2>
           <form onSubmit={e => this.handleClick(e)}>
-          {this.state.registerFail && <div className="loginFail"><span>{this.state.registerMsg}</span></div>}
+            {this.state.registerFail && <div className="loginFail"><span>{this.state.registerMsg}</span></div>}
             <input type="text" name="name" placeholder="Nickname" onChange={e => this.setState({ name: e.target.value })} value={this.state.name} />
             <input type="text" name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })} value={this.state.email} />
             <input type="password" name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })} value={this.state.password} />
@@ -76,7 +76,7 @@ class Register extends Component {
             <button type="submit" name="register">Register</button>
           </form>
           <span>
-              Already Have an Account?
+            Already Have an Account?
             <Link to="/login"> Login</Link>
           </span>
         </div>

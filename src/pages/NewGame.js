@@ -10,7 +10,8 @@ import "../components/Players.css"
 import Players from "../components/Players"
 import SetSelect from "../components/SetSelect"
 
-const socket = openSocket("https://master.d34fmqcbe5o49s.amplifyapp.com/")
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket("https://master.d34fmqcbe5o49s.amplifyapp.com/")
 
 class NewGame extends Component {
   constructor(props) {
@@ -21,8 +22,8 @@ class NewGame extends Component {
       lobbyId: "",
       lobbyName: "",
       user: "",
-      AIName: "",
-      AI: [],
+      // AIName: "",
+      // AI: [],
       players: [],
       redirect: false,
       message: "",
@@ -32,18 +33,18 @@ class NewGame extends Component {
 
   componentWillMount() {
     this.checkToken()
-    fetch("https://master.d3nfp0yljqbgje.amplifyapp.com/sets")
-      .then(response => response.json())
-      .then(sets => {
-        this.setState({ cardSets: sets })
-      })
-      .catch(err => console.log(err.message))
-    this.handleAI()
+    if (this.state.cardSets.length < 1)
+      fetch("https://cards-against-humanity-api.herokuapp.com/sets")
+        .then(response => response.json())
+        .then(sets => {
+          this.setState({ cardSets: sets })
+        })
+        .catch(err => console.log(err.message))
+    // this.handleAI()
     this.handleLobby()
   }
 
   checkToken() {
-    console.log(localStorage.getItem("cahToken"))
     if (!localStorage.getItem("cahToken")) {
       this.setState({ redirect: true })
     } else {
@@ -61,30 +62,30 @@ class NewGame extends Component {
     })
   }
 
-  handleAI() {
-    // adds the AI user to
-    socket.on("Add AI", user => {
-      let AI = this.state.AI
-      let players = this.state.players
-      AI.push(user)
-      players.push(user)
-      this.setState({ AI, players })
-    })
-  }
+  // handleAI() {
+  //   // adds the AI user to
+  //   socket.on("Add AI", user => {
+  //     let AI = this.state.AI
+  //     let players = this.state.players
+  //     AI.push(user)
+  //     players.push(user)
+  //     this.setState({ AI, players })
+  //   })
+  // }
 
-  createAI(e, name) {
-    // will create an AI user with the name provided
-    e.preventDefault()
-    let players = this.state.players
-    if (players.findIndex(x => x.name === name) === -1) {
-      if (name.length >= 1) {
-        socket.emit("Create AI", name)
-        this.setState({ AIName: "" })
-      } else {
-        // going to add some sort of warning not to add bots with same name
-      }
-    }
-  }
+  // createAI(e, name) {
+  //   // will create an AI user with the name provided
+  //   e.preventDefault()
+  //   let players = this.state.players
+  //   if (players.findIndex(x => x.name === name) === -1) {
+  //     if (name.length >= 1) {
+  //       socket.emit("Create AI", name)
+  //       this.setState({ AIName: "" })
+  //     } else {
+  //       // going to add some sort of warning not to add bots with same name
+  //     }
+  //   }
+  // }
 
   highlightSet(setName) {
     // adds selected set to state if not already included, removes if it is already included
@@ -103,17 +104,21 @@ class NewGame extends Component {
   // eslint-disable-next-line class-methods-use-this
   createLobby(e, strId) {
     e.preventDefault()
-    fetch(
-      `https://cards-against-humanity-api.herokuapp.com/sets/multi?sets=${this.state.selectedSets}`
-    )
+    fetch(`https://cards-against-humanity-api.herokuapp.com/sets/multi?sets=${this.state.selectedSets}`)
       .then(res => res.json())
       .then(res => {
+        let blackCards = []
+        let whiteCards = []
+        res.forEach(item => {
+          blackCards = blackCards.concat(item.blackCards)
+          whiteCards = whiteCards.concat(item.whiteCards)
+        })
         socket.emit(
-          "Create Lobby",
-          res,
+          "New Game",
+          decode(localStorage.getItem("cahToken")).id,
           strId,
-          decode(localStorage.getItem("cahToken"))._id,
-          this.state.AI
+          whiteCards,
+          blackCards
         )
       })
   }
@@ -129,13 +134,13 @@ class NewGame extends Component {
           highlight="highlighted"
         />
       ) : (
-        <SetSelect
-          onClick={() => this.highlightSet(set.setName)}
-          key={set.setName}
-          setName={set.setName}
-          highlight="unhighlighted"
-        />
-      )
+          <SetSelect
+            onClick={() => this.highlightSet(set.setName)}
+            key={set.setName}
+            setName={set.setName}
+            highlight="unhighlighted"
+          />
+        )
       return output
     })
   }
@@ -154,7 +159,7 @@ class NewGame extends Component {
     return (
       <div className="newGameContainer">
         {redirect && <Redirect to="/login" />}
-        {lobbyId && <Redirect to={"/play-game/" + lobbyId} />}
+        {lobbyId && <Redirect to={{ pathname: "/play-game/" + lobbyId, user: decode(localStorage.getItem("cahToken")) }} />}
         <div className="players">
           <h1>Players</h1>
           <ul>
