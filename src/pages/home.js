@@ -8,8 +8,8 @@ import "./Home.css"
 import openSocket from "socket.io-client"
 import decode from "jwt-decode"
 
-const socket = openSocket("http://localhost:4000")
-// const socket = openSocket('https://master.d34fmqcbe5o49s.amplifyapp.com/')
+// const socket = openSocket("http://localhost:4000")
+const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 class Home extends Component {
