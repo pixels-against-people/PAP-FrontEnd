@@ -345,7 +345,7 @@ class GameScreen extends Component {
                   <h1>Waiting for the game to start</h1>
                 ) : winningCard ? (
                   <div>
-                    <h1>{winningCard.name} Won the Round</h1>{" "}
+                    <h1>{winningCard.user.name} Won the Round</h1>{" "}
                     <button onClick={() => this.nextHand()}>next hand</button>
                   </div>
                 ) : (
