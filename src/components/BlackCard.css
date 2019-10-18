@@ -28,7 +28,7 @@
   align-items: center;
 }
 
-.black-card > div:last-child > div {
+.black-card>div:last-child>div {
   display: flex;
   justify-content: center;
   align-items: center;

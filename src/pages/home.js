@@ -8,8 +8,8 @@ import "./Home.css"
 import openSocket from "socket.io-client"
 import decode from "jwt-decode"
 
-// const socket = openSocket("http://localhost:4000")
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket("http://localhost:4000")
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 class Home extends Component {
@@ -52,23 +52,25 @@ class Home extends Component {
     return (
       <div className="homeContainer">
         {this.state.lobbyId && <Redirect to={{ pathname: "/play-game/" + this.state.lobbyId, user: this.state.user }} />}
+        <h1>Pixels Against People</h1>
+        <h2>A Cards Against Humanity clone</h2>
         <div className="buttonContainer">
           <Link className="Link" to="/game">
             Create Game
           </Link>
           <form>
-            <button
-              className="Link"
-              onClick={e => this.findLobby(e, this.state.lobbyName)}
-            >
-              Join Game
-            </button>
             <input
               placeholder="Lobby Name"
               type="text"
               value={this.state.lobbyName}
               onChange={e => this.setState({ lobbyName: e.target.value })}
             />
+            <button
+              className="Link"
+              onClick={e => this.findLobby(e, this.state.lobbyName)}
+            >
+              Join Game
+            </button>
           </form>
         </div>
       </div>

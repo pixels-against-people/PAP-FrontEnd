@@ -9,6 +9,17 @@
   overflow: hidden;
 }
 
+.homeContainer>h1 {
+  font-size: 7em;
+  padding-top: 16%;
+  margin: 0;
+  text-align: center;
+}
+
+.homeContainer>h2 {
+  text-align: center;
+}
+
 .homeContainer>.buttonContainer {
   position: absolute;
   top: 70%;
@@ -17,15 +28,20 @@
   height: 5vh;
   margin: auto;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
 
 .homeContainer>.buttonContainer>form {
   display: flex;
-  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+.homeContainer>.buttonContainer>form>button {
+  min-height: 50px;
+  max-height: 50px;
 }
 
 .homeContainer>.buttonContainer>form>input {
