@@ -10,8 +10,8 @@ import "../components/Players.css"
 import Players from "../components/Players"
 import SetSelect from "../components/SetSelect"
 
-const socket = openSocket('http://localhost:4000')
-// const socket = openSocket("https://pixelsagainstpeople.herokuapp.com/")
+// const socket = openSocket('http://localhost:4000')
+const socket = openSocket("https://pixelsagainstpeople.herokuapp.com/")
 
 class NewGame extends Component {
   constructor(props) {
