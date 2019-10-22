@@ -7,6 +7,7 @@ import GameScreen from "./pages/GameScreen"
 import Navbar from "./components/Navbar"
 import Login from "./pages/login"
 import Register from "./pages/register"
+import ReactGA from 'react-ga';
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +20,12 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({ loading: false })
+    this.initializeReactGA()
+  }
+
+  initializeReactGA() {
+    ReactGA.initialize('UA-150724057-1');
+    ReactGA.pageview('/');
   }
 
   render() {
