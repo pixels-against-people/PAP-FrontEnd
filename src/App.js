@@ -30,6 +30,12 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({ loading: false })
+    this.initializeReactGA()
+  }
+
+  initializeReactGA() {
+    ReactGA.initialize('UA-150724057-1');
+    ReactGA.pageview('/');
   }
 
   render() {
