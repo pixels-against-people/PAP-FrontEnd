@@ -7,6 +7,17 @@ import GameScreen from "./pages/GameScreen"
 import Navbar from "./components/Navbar"
 import Login from "./pages/login"
 import Register from "./pages/register"
+import ReactGA from 'react-ga'
+import decode from 'jwt-decode'
+
+const trackingId = 'UA-150841204-1' // Replace with your Google Analytics tracking ID
+
+ReactGA.initialize(trackingId)
+ReactGA.set({
+  userId: decode(localStorage.getItem("cahToken")).id
+  // any data that is relevant to the user session
+  // that you would like to track with google analytics
+})
 
 class App extends Component {
   constructor(props) {

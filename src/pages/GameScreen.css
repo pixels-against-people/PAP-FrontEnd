@@ -89,6 +89,6 @@
   background: var(--primary);
 }
 
-.game-screen .white-cards > .inactive {
+.game-screen .white-cards>.inactive {
   text-align: center;
 }
