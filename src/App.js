@@ -8,16 +8,14 @@ import Navbar from "./components/Navbar"
 import Login from "./pages/login"
 import Register from "./pages/register"
 import ReactGA from 'react-ga'
-import decode from 'jwt-decode'
 
-const trackingId = 'UA-150841204-1' // Replace with your Google Analytics tracking ID
+const trackingId = 'UA-151565115-1' // Replace with your Google Analytics tracking ID
 
-ReactGA.initialize(trackingId)
-ReactGA.set({
-  userId: decode(localStorage.getItem("cahToken")).id
-  // any data that is relevant to the user session
-  // that you would like to track with google analytics
-})
+function initializeReactGA() {
+  ReactGA.initialize(trackingId);
+  ReactGA.pageview('/');
+}
+initializeReactGA()
 
 class App extends Component {
   constructor(props) {
