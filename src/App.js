@@ -9,14 +9,6 @@ import Login from "./pages/login"
 import Register from "./pages/register"
 import ReactGA from 'react-ga'
 
-const trackingId = 'UA-151565115-1' // Replace with your Google Analytics tracking ID
-
-function initializeReactGA() {
-  ReactGA.initialize(trackingId);
-  ReactGA.pageview('/');
-}
-initializeReactGA()
-
 class App extends Component {
   constructor(props) {
     super(props)
@@ -32,7 +24,7 @@ class App extends Component {
   }
 
   initializeReactGA() {
-    ReactGA.initialize('UA-150724057-1');
+    ReactGA.initialize('UA-151565115-1');
     ReactGA.pageview('/');
   }
 
