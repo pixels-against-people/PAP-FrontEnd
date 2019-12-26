@@ -34,25 +34,23 @@ class Navbar extends Component {
   render() {
     return (
       <nav className="navbar">
-        <ul>
-          <li>
-            <Link to="/"><p>Logo</p></Link>
-            <Link to="/"><p>Home</p></Link>
-            <Link to="/game"><p>New Game</p></Link>
-          </li>
-          {this.state.isAuthed ? <li>
-            <Link to="/user/:id"><p>Profile</p></Link>
-            {/* eslint-disable-next-line */}
-            <a onClick={() => this.logout()}><p>Logout</p></a>
-          </li>
-            :
-            <li>
-              <Link to="/register"><p>Sign Up</p></Link>
-              <Link to="/login"><p>Log in</p></Link>
-            </li>
-          }
-        </ul>
-      </nav>
+        <h2>Pixels Against People</h2>
+        {this.state.isAuthed ?
+          <ul>
+            <li><Link to="/">Home<div></div></Link></li>
+            <li><Link to="/game">New Game<div></div></Link></li>
+            <li><Link to="/user/:id">Profile<div></div></Link></li>
+            <li><a onClick={() => this.logout()}>Logout<div></div></a></li>
+          </ul>
+          :
+          <ul>
+            <li><Link to="/">Home<div></div></Link></li>
+            <li><Link to="/game">New Game<div></div></Link></li>
+            <li><Link to="/register">Sign Up<div></div></Link></li>
+            <li><Link to="/login">Log in<div></div></Link></li>
+          </ul>
+        }
+      </nav >
     )
   }
 }

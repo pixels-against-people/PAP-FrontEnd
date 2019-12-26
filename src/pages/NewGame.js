@@ -22,8 +22,6 @@ class NewGame extends Component {
       lobbyId: "",
       lobbyName: "",
       user: "",
-      // AIName: "",
-      // AI: [],
       players: [],
       redirect: false,
       message: "",
@@ -40,7 +38,6 @@ class NewGame extends Component {
           this.setState({ cardSets: sets })
         })
         .catch(err => console.log(err.message))
-    // this.handleAI()
     this.handleLobby()
   }
 
@@ -61,31 +58,6 @@ class NewGame extends Component {
       this.setState({ lobbyFail: true, message })
     })
   }
-
-  // handleAI() {
-  //   // adds the AI user to
-  //   socket.on("Add AI", user => {
-  //     let AI = this.state.AI
-  //     let players = this.state.players
-  //     AI.push(user)
-  //     players.push(user)
-  //     this.setState({ AI, players })
-  //   })
-  // }
-
-  // createAI(e, name) {
-  //   // will create an AI user with the name provided
-  //   e.preventDefault()
-  //   let players = this.state.players
-  //   if (players.findIndex(x => x.name === name) === -1) {
-  //     if (name.length >= 1) {
-  //       socket.emit("Create AI", name)
-  //       this.setState({ AIName: "" })
-  //     } else {
-  //       // going to add some sort of warning not to add bots with same name
-  //     }
-  //   }
-  // }
 
   highlightSet(setName) {
     // adds selected set to state if not already included, removes if it is already included
@@ -153,7 +125,6 @@ class NewGame extends Component {
       lobbyName,
       redirect,
       lobbyFail,
-      AIName,
       message
     } = this.state
     return (
@@ -172,17 +143,6 @@ class NewGame extends Component {
           {this.renderSets(cardSets)}
         </div>
         <div className="startButton">
-          <form className="startForm">
-            <input
-              type="text"
-              placeholder="Bot Name"
-              value={AIName}
-              onChange={e => this.setState({ AIName: e.target.value })}
-            />
-            <button type="submit" onClick={e => this.createAI(e, AIName)}>
-              Add Bot
-            </button>
-          </form>
           <form className="startForm">
             <input
               type="text"
