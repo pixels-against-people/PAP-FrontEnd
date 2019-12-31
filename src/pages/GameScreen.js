@@ -245,8 +245,8 @@ class GameScreen extends Component {
           return (
             <div className="play-area">
               <div className="start-area">
-                <h1>Waiting For Players</h1>
-                {players.length >= 1 && owner && (<button onClick={() => this.startGame()}>Start Game</button>)}
+                <h1>Waiting For {3 - players.length > 0 ? 3 - players.length : null} Players</h1>
+                {players.length >= 3 && owner && (<button onClick={() => this.startGame()}>Start Game</button>)}
               </div>
             </div>
           )

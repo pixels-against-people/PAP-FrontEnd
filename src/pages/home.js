@@ -35,7 +35,9 @@ class Home extends Component {
 
   findLobby(e, name) {
     e.preventDefault()
-    socket.emit("Join Lobby", decode(localStorage.getItem('cahToken')).id, name)
+    if (localStorage.getItem('cahToken')) {
+      socket.emit("Join Lobby", decode(localStorage.getItem('cahToken')).id, name)
+    }
   }
 
   componentDidMount() {

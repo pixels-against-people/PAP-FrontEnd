@@ -40,7 +40,7 @@ class Navbar extends Component {
             <li><Link to="/">Home<div></div></Link></li>
             <li><Link to="/game">New Game<div></div></Link></li>
             <li><Link to="/user/:id">Profile<div></div></Link></li>
-            <li><a onClick={() => this.logout()}>Logout<div></div></a></li>
+            <li><a href='#' onClick={() => this.logout()}>Logout<div></div></a></li>
           </ul>
           :
           <ul>
