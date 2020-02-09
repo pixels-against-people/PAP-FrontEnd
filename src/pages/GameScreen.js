@@ -15,8 +15,8 @@ import Chat from "../components/Chat"
 import Players from "../components/Players"
 import decode from "jwt-decode"
 
-// const socket = openSocket('http://localhost:4000')
-const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
+const socket = openSocket('http://localhost:4000')
+// const socket = openSocket('https://pixelsagainstpeople.herokuapp.com/')
 
 
 class GameScreen extends Component {
@@ -47,6 +47,7 @@ class GameScreen extends Component {
     this.handleCard()
     this.handleGameStart()
     this.handleWinCard()
+    this.handleDisconnect()
   }
 
   componentDidMount() {
@@ -54,6 +55,12 @@ class GameScreen extends Component {
     if (localStorage.getItem("cahToken")) {
       this.setState({ user: decode(localStorage.getItem("cahToken")) })
     }
+  }
+
+  handleDisconnect() {
+    socket.on('disconnect', () => {
+      // mark player as disconnected
+    })
   }
 
   // handleAICzar() {
@@ -64,16 +71,15 @@ class GameScreen extends Component {
   // }
 
   nextHand() {
-    socket.on("Hand Started", lobby => {
-      let czar = false
-      let clientActive = true
-      const playedCards = lobby.currPlayed
-      if (this.state.user.id === lobby.czar) {
-        czar = true
-        clientActive = false
-      }
-      this.setState({ players: lobby.users, blackCard: lobby.currBlack, gameState: "Playing", czar, clientActive, playedCards, winningCard: null })
-    })
+    // socket.on("Hand Started", lobby => {
+    //   let czar = false
+    //   let clientActive = true
+    //   if (this.state.user.id === lobby.czar) {
+    //     czar = true
+    //     clientActive = false
+    //   }
+    //   this.setState({ players: lobby.users, blackCard: lobby.currBlack, gameState: "Playing", czar, clientActive, playedCards: lobby.currPlayed, winningCard: null })
+    // })
     socket.emit("Start Hand", this.state.lobby, false)
   }
 
@@ -117,7 +123,7 @@ class GameScreen extends Component {
         czar = true
         clientActive = false
       }
-      this.setState({ blackCard: lobby.currBlack, hand, gameState: "Playing", czar, clientActive })
+      this.setState({ players: lobby.users, blackCard: lobby.currBlack, gameState: "Playing", czar, clientActive, hand, playedCards: lobby.currPlayed, winningCard: null })
     })
   }
 
