@@ -37,7 +37,7 @@ class GameScreen extends Component {
       lobby: this.props.match.params.lobbyId,
       czar: false,
       czarId: "",
-      winningCard: null
+      winningCard: null,
     }
   }
 
@@ -71,16 +71,15 @@ class GameScreen extends Component {
   // }
 
   nextHand() {
-    // socket.on("Hand Started", lobby => {
-    //   let czar = false
-    //   let clientActive = true
-    //   if (this.state.user.id === lobby.czar) {
-    //     czar = true
-    //     clientActive = false
-    //   }
-    //   this.setState({ players: lobby.users, blackCard: lobby.currBlack, gameState: "Playing", czar, clientActive, playedCards: lobby.currPlayed, winningCard: null })
-    // })
     socket.emit("Start Hand", this.state.lobby, false)
+  }
+
+  //adding bot user
+  addbot(botName) {
+    socket.emit("Add Bot", (botName, this.state.lobbyId))
+    socket.on("Bot Added", players => {
+      this.setState({ players })
+    })
   }
 
   handleCard() {
@@ -242,7 +241,8 @@ class GameScreen extends Component {
       owner,
       czar,
       czarId,
-      winningCard
+      winningCard,
+      bots
     } = this.state
 
     const playArea = () => {
@@ -300,7 +300,7 @@ class GameScreen extends Component {
           <h1>Players</h1>
           <ul>
             {/* eslint-disable-next-line react/destructuring-assignment */}
-            <Players players={players} czarId={czarId} />
+            <Players players={players} bots={bots} czarId={czarId} />
           </ul>
         </div>
         {playArea()}

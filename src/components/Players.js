@@ -8,7 +8,7 @@ import './Players.css'
 import decode from 'jwt-decode'
 
 const Players = (props) => {
-  const { players, czarId } = props
+  const { players, czarId, bots } = props
   const mappedPlayers = players.map((player) => {
     return (
       <li className="player" key={player.id}>

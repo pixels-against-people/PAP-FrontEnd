@@ -63,7 +63,7 @@ class Register extends Component {
   render() {
     return (
       <div className="authContainer">
-        <h1>CAH</h1>
+        <h1>PAP</h1>
         {this.state.redirect && <Redirect to="/" />}
         <div className="signup">
           <h2>Join Today</h2>

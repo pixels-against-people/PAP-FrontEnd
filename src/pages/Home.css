@@ -1,8 +1,6 @@
 .homeContainer {
   height: calc(100vh - 75px);
   width: 100vw;
-  /* new design necessary */
-  /* background: url("https://mondrian.mashable.com/2015%252F03%252F11%252Fe6%252FCardsAgains.5d039.jpg%252F950x534__filters%253Aquality%252890%2529.jpg?signature=KUpKv8en4SDlog0IvvR7uuBaaa8="); */
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -21,11 +19,9 @@
 }
 
 .homeContainer>.buttonContainer {
-  position: absolute;
-  top: 70%;
   left: calc(50% - 25vw);
   width: 50vw;
-  height: 5vh;
+  height: max-content;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -39,11 +35,6 @@
   align-items: center;
 }
 
-.homeContainer>.buttonContainer>form>button {
-  min-height: 50px;
-  max-height: 50px;
-}
-
 .homeContainer>.buttonContainer>form>input {
   padding: 10px;
   margin: 10px;
@@ -54,18 +45,14 @@
 }
 
 .homeContainer .Link {
-  text-align: center;
+  padding: 10px 15px 10px 15px;
   text-decoration: none;
-  min-height: 30px;
-  max-height: 50px;
-  min-width: 200px;
-  max-width: 15vw;
-  padding: 10px;
   border-radius: 10px;
   font-size: 24px;
   color: var(--primary);
   background-color: var(--secondary);
-  width: 40%;
-  height: 40%;
-  border: .5px solid var(--secondary);
+  width: max-content;
+  height: max-content;
 }
+
+@media screen and (max-width: 768px) {}

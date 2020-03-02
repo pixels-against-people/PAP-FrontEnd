@@ -47,7 +47,7 @@ class Login extends Component {
     const { redirect } = this.state
     return (
       <div className="authContainer">
-        <h1>CAH</h1>
+        <h1>PAP</h1>
         <div className="signup">
           {redirect && <Redirect to="/" />}
           <h1>Welcome Back</h1>
